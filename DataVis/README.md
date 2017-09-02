@@ -5,8 +5,9 @@
 # Materials
 
 - [Slides](DataVisGgplot2.pdf)
-- [Load data](DataVis.R)
+- [Load the data](DataVis.R)
 - [Cheatsheet for ggplot2](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+- [NGS project]()
 
 # Other materials
 
