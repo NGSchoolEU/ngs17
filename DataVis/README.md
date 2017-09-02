@@ -7,7 +7,8 @@
 - [Slides](DataVisGgplot2.pdf)
 - [Load the data](DataVis.R)
 - [Cheatsheet for ggplot2](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
-- [NGS project]()
+- [NGS project - MLGenSig package](https://github.com/geneticsMiNIng/MLGenSig)
+- [NGS project - MLGenSig vignette](https://github.com/geneticsMiNIng/MLGenSig/blob/master/Vignette/Usage.pdf)
 
 # Other materials
 
