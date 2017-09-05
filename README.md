@@ -56,7 +56,8 @@ devtools::install_github('jw156605/SLICER'); devtools::install_github("hms-dbmi/
 ```
 
 ## Running exercises
-
+Make sure to import local variable in each new window
 ```bash
+# 
 source /ngschool/2017/.bashrc
-```
+``` 
