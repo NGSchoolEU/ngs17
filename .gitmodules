@@ -1,0 +1,3 @@
+[submodule "scRNA.seq.course"]
+	path = scRNA.seq.course
+	url = https://github.com/hemberg-lab/scRNA.seq.course
