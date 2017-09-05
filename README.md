@@ -5,7 +5,7 @@ Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu
 ## Dependencies
 
 Install prerequesities:
-- [bioconda](https://bioconda.github.io/)
+- [bioconda](https://bioconda.github.io/) & other dependencies
 ```bash
 # install conda ie. in /ngschool/src/miniconda2
 wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
@@ -17,10 +17,7 @@ chmod +x Miniconda2-latest-Linux-x86_64.sh
 conda config --add channels defaults
 conda config --add channels conda-forge
 conda config --add channels bioconda
-```
 
-- bioconda & other dependencies
-```bash
 # install dependencies - AVOID INSTALLING r-base, as it'll mess up with native R installation
 conda install bwa htslib spades quast trimmomatic fastqc gmap blast qualimap star busco tophat bowtie2 gawk igv seqtk glimmer exonerate muscle fasttree mcl trimal augustus homer bedtools bbmap gffutils
 
@@ -30,14 +27,15 @@ sudo groupadd docker
 sudo usermod -aG docker $USER
 ```
 
-- R, Bioconductor and its packages
+- R, Bioconductor and R packages
 ```bash
 # R - need to add R repo first
 echo "deb https://www.stats.bris.ac.uk/R/bin/linux/ubuntu $(lsb_release -c | xargs | cut -f2 -d' ')/" | sudo tee -a /etc/apt/sources.list
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 sudo apt-get update
-
 sudo apt install r-base r-base-dev libcurl4-openssl-dev libxml2-dev libcairo2-dev libxt-dev
+
+# install R packages for all users
 sudo R
 install.packages("plotly"); install.packages("ggplot2")
 source("https://bioconductor.org/biocLite.R") # bioconductor
@@ -58,6 +56,7 @@ devtools::install_github('jw156605/SLICER'); devtools::install_github("hms-dbmi/
 ## Running exercises
 Make sure to import local variable in each new window
 ```bash
-# 
+# NOTE: you may need to change `/ngschool/2017` directory
+# if you cloned the repository to another location
 source /ngschool/2017/.bashrc
 ``` 
