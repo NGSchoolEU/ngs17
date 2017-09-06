@@ -40,7 +40,7 @@ sudo R
 install.packages("plotly"); install.packages("ggplot2")
 source("https://bioconductor.org/biocLite.R") # bioconductor
 biocLite('BiocInstaller'); biocLite("ATACseqQC"); biocLite("Diffbifnd"); biocLite("affyPLM"); biocLite("arrayMvout"); biocLite("arrayQualityMetrics"); biocLite("gcrma"); biocLite("hgu133acdf"); biocLite("hgu133plus2.db"); biocLite("simpleaffy")
-biocLite("RNAprobR"); biocLite("affy"); biocLite("biomaRt"); biocLite("geneplotter"); biocLite("gplots"); biocLite("limma"); biocLite("sva"); biocLite("Rsamtools"); biocLite("BSgenome.Hsapiens.UCSC.hg19")
+biocLite("RNAprobR"); biocLite("affy"); biocLite("biomaRt"); biocLite("geneplotter"); biocLite("gplots"); biocLite("limma"); biocLite("sva"); biocLite("Rsamtools"); biocLite("BSgenome.Hsapiens.UCSC.hg19"); biocLite("ChIPseeker")
 
 ## scRNA-seq - you may use it through docker image (but it's huuuuuge!)
 install.packages("mvoutlier"); install.packages("statmod"); install.packages("pheatmap"); install.packages("ROCR")
