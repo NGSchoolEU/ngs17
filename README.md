@@ -92,11 +92,12 @@ source /ngschool/2017/.bashrc
 ```
 
 ### Working in VirtualBox
-First, [get VM image](zdglab.iimcb.gov.pl/cluster/ngschool/2017/VM/Ubuntu16.04.3.vdi)
+First, [get VM image](http://zdglab.iimcb.gov.pl/cluster/ngschool/2017/VM/Ubuntu16.04.3.vdi)
 and [create VM in VirtualBox using this image](http://linuxbsdos.com/2015/11/13/how-to-import-a-virtual-machine-image-into-virtualbox/). 
 Then run VM (u: ngschool p: ngschool), enter NGSchoool directory `cd /ngschool/2017` and you are ready to work. 
 
 ## Materials not included in github repo
+This has to be done only if you wish to explore materials before the school. Otherwise, ignore below. 
 To clone repo, use `git clone --recursive https://github.com/NGSchoolEU/2017.git`
 
 ### De novo assembly
