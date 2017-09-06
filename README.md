@@ -16,9 +16,9 @@ Table of Contents
 
 
 ## Dependencies
-In order to run workshop examples in your own laptop, you'll need to install all below prerequesities.
-*Note, the installation instructions are meant for Ubuntu 16.04. 
-Everything should be done in below order, it may take 2-3 hours and around 15-20GB of hard-drive space.*
+In order to run workshop examples in your own laptop, you'll need to install all below prerequesities.  
+**Note, the installation instructions are meant for Ubuntu 16.04. 
+Everything should be done in below order, it may take 2-3 hours and around 15-20GB of hard-drive space.**
 
 - [bioconda](https://bioconda.github.io/) & other dependencies
 ```bash
@@ -97,7 +97,7 @@ and [create VM in VirtualBox using this image](http://linuxbsdos.com/2015/11/13/
 Then run VM (u: ngschool p: ngschool), enter NGSchoool directory `cd /ngschool/2017` and you are ready to work. 
 
 ## Materials not included in github repo
-This has to be done only if you wish to explore materials before the school. Otherwise, ignore below. 
+**This has to be done only if you wish to explore materials before the school. Otherwise, ignore below. **  
 To clone repo, use `git clone --recursive https://github.com/NGSchoolEU/2017.git`
 
 ### De novo assembly
