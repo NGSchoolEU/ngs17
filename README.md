@@ -55,7 +55,7 @@ sudo R
 install.packages("plotly"); install.packages("ggplot2")
 source("https://bioconductor.org/biocLite.R") # bioconductor
 biocLite('BiocInstaller'); biocLite("ATACseqQC"); biocLite("Diffbifnd"); biocLite("affyPLM"); biocLite("arrayMvout"); biocLite("arrayQualityMetrics"); biocLite("gcrma"); biocLite("hgu133acdf"); biocLite("hgu133plus2.db"); biocLite("simpleaffy")
-biocLite("RNAprobR"); biocLite("affy"); biocLite("biomaRt"); biocLite("geneplotter"); biocLite("gplots"); biocLite("limma"); biocLite("sva"); biocLite("Rsamtools");
+biocLite("RNAprobR"); biocLite("affy"); biocLite("biomaRt"); biocLite("geneplotter"); biocLite("gplots"); biocLite("limma"); biocLite("sva"); biocLite("Rsamtools"); biocLite("ChIPseeker"); 
 biocLite("BSgenome.Hsapiens.UCSC.hg19") # large
 
 ## scRNA-seq - you may use it through docker image (but it's huuuuuge!)
@@ -103,3 +103,4 @@ To clone repor, use `git clone --recursive `
 You can get it using `wget -nc -r -np HTTP`
 - http://spades.bioinf.spbau.ru/~school/genomics/
 - http://spades.bioinf.spbau.ru/~school/transcriptomics/
+
