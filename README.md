@@ -10,7 +10,7 @@ Table of Contents
       * [Running exercises](#running-exercises)
          * [Working in your own laptop](#working-in-your-own-laptop)
          * [Working in remote NGSchool server](#working-in-remote-ngschool-server)
-         * [Working in Virtual Box](#working-in-virtual-box)
+         * [Working in VirtualBox](#working-in-virtualbox)
       * [Materials not included in github repo](#materials-not-included-in-github-repo)
          * [De novo assembly](#de-novo-assembly)
 
@@ -55,7 +55,7 @@ sudo R
 install.packages("plotly"); install.packages("ggplot2")
 source("https://bioconductor.org/biocLite.R") # bioconductor
 biocLite('BiocInstaller'); biocLite("ATACseqQC"); biocLite("Diffbifnd"); biocLite("affyPLM"); biocLite("arrayMvout"); biocLite("arrayQualityMetrics"); biocLite("gcrma"); biocLite("hgu133acdf"); biocLite("hgu133plus2.db"); biocLite("simpleaffy")
-biocLite("RNAprobR"); biocLite("affy"); biocLite("biomaRt"); biocLite("geneplotter"); biocLite("gplots"); biocLite("limma"); biocLite("sva"); biocLite("Rsamtools");
+biocLite("RNAprobR"); biocLite("affy"); biocLite("biomaRt"); biocLite("geneplotter"); biocLite("gplots"); biocLite("limma"); biocLite("sva"); biocLite("Rsamtools"); biocLite("ChIPseeker");
 biocLite("BSgenome.Hsapiens.UCSC.hg19") # large
 
 ## scRNA-seq - you may use it through docker image (but it's huuuuuge!)
@@ -97,7 +97,7 @@ and [create VM in VirtualBox using this image](http://linuxbsdos.com/2015/11/13/
 Then run VM (u: ngschool p: ngschool), enter NGSchoool directory `cd /ngschool/2017` and you are ready to work. 
 
 ## Materials not included in github repo
-To clone repor, use `git clone --recursive `
+To clone repo, use `git clone --recursive https://github.com/NGSchoolEU/2017.git`
 
 ### De novo assembly
 You can get it using `wget -nc -r -np HTTP`
