@@ -1,0 +1,6 @@
+
+REF=$1
+READS=$2
+
+tmap mapall -f $REF -r $READS -n 1 -v -Y -u -o 1 stage1 map4
+

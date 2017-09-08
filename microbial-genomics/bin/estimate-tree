@@ -1,0 +1,4 @@
+
+rm RAxML_*
+raxmlHPC-PTHREADS-SSE3 -T 1 -f a -s NC_000962.b1.infile -x 12345 -p 1234 -# 100 -m GTRGAMMA -n NC_000962.b1 -o NC_000962.3 
+
