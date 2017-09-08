@@ -2,10 +2,7 @@
 
 Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu/2017). 
 
-Table of Contents
-=================
-
-   * [NGSchool2017 materials](#ngschool2017-materials)
+**Table of Contents**
       * [Dependencies](#dependencies)
       * [Running exercises](#running-exercises)
          * [Working in your own laptop](#working-in-your-own-laptop)
@@ -20,7 +17,7 @@ In order to run workshop examples in your own laptop, you'll need to install all
 **Note, the installation instructions are meant for Ubuntu 16.04. 
 Everything should be done in below order, it may take 2-3 hours and around 15-20GB of hard-drive space.**
 
-- [bioconda](https://bioconda.github.io/) & other dependencies
+### [bioconda](https://bioconda.github.io/) & [docker](https://docker.com)
 ```bash
 # install conda ie. in /ngschool/src/miniconda2
 wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
@@ -42,7 +39,7 @@ sudo groupadd docker
 sudo usermod -aG docker $USER
 ```
 
-- R, Bioconductor and R packages
+### R, Bioconductor and other R packages
 ```bash
 # R - need to add R repo first
 echo "deb https://www.stats.bris.ac.uk/R/bin/linux/ubuntu $(lsb_release -c | xargs | cut -f2 -d' ')/" | sudo tee -a /etc/apt/sources.list
@@ -69,7 +66,15 @@ devtools::install_github("hemberg-lab/scRNA.seq.funcs"); devtools::install_githu
 devtools::install_github('jw156605/SLICER'); devtools::install_github("hms-dbmi/scde", build_vignettes = FALSE)
 ```
 
-- manual installation
+### 8/09/2017 UPDATE
+```bash
+sudo R # tgambin & kkedzierska
+install.packages("data.table");
+source("https://bioconductor.org/biocLite.R")
+biocLite('parallel'); biocLite('RCurl'); biocLite('gdata'); biocLite('Hmisc'); biocLite('matrixStats'); biocLite('DNAcopy'); biocLite('GenomicRanges'); biocLite('Rsubread'); biocLite('WES.1KG.WUGSC'); biocLite('CODEX'); biocLite("ChIPseeker");
+```
+
+### Manual installation
   - [rnaQUAST](http://cab.spbu.ru/software/rnaquast/)
 
 ## Running exercises
@@ -97,7 +102,7 @@ and [create VM in VirtualBox using this image](http://linuxbsdos.com/2015/11/13/
 Then run VM (u: ngschool p: ngschool), enter NGSchoool directory `cd /ngschool/2017` and you are ready to work. 
 
 ## Materials not included in github repo
-**This has to be done only if you wish to explore materials before the school. Otherwise, ignore below. **  
+**This has to be done only if you wish to explore materials before the school. Otherwise, ignore below.**  
 To clone repo, use `git clone --recursive https://github.com/NGSchoolEU/2017.git`
 
 ### De novo assembly
