@@ -8,8 +8,10 @@ Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu
          * [Working in your own laptop](#working-in-your-own-laptop)
          * [Working in remote NGSchool server](#working-in-remote-ngschool-server)
          * [Working in VirtualBox](#working-in-virtualbox)
+   * [Cloning the repository](#cloning-the-repository)
       * [Materials not included in github repo](#materials-not-included-in-github-repo)
          * [De novo assembly](#de-novo-assembly)
+         * [Microbial genomics](#microbial-genomics)
 
 
 ## Dependencies
@@ -103,8 +105,8 @@ Then run VM (u: ngschool p: ngschool), enter NGSchoool directory `cd /ngschool/2
 
 # Cloning the repository
 **This has to be done only if you wish to explore materials before the school. Otherwise, ignore below.**  
-To clone repo, use `git clone --recursive https://github.com/NGSchoolEU/2017.git`
-Below, we're providing links to data not included in this repository: 
+To clone repo, use `git clone --recursive https://github.com/NGSchoolEU/2017.git`  
+Below, we're providing links to data not included in this repository. 
 
 ## Materials not included in github repo
 You can get it using `wget -nc -r -np HTTP`
@@ -113,5 +115,5 @@ You can get it using `wget -nc -r -np HTTP`
 - http://spades.bioinf.spbau.ru/~school/genomics/
 - http://spades.bioinf.spbau.ru/~school/transcriptomics/
 
-###
+### Microbial genomics
 - http://bugs.sgul.ac.uk/ngschool-2017/
