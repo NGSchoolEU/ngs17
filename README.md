@@ -3,6 +3,7 @@
 Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu/2017). 
 
 **Table of Contents**
+
       * [Dependencies](#dependencies)
       * [Running exercises](#running-exercises)
          * [Working in your own laptop](#working-in-your-own-laptop)
