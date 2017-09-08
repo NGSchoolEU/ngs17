@@ -2,14 +2,17 @@
 
 Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu/2017). 
 
-**Table of Contents**
+**Table of Contents**  
+   * [NGSchool2017 materials](#ngschool2017-materials)
       * [Dependencies](#dependencies)
       * [Running exercises](#running-exercises)
          * [Working in your own laptop](#working-in-your-own-laptop)
          * [Working in remote NGSchool server](#working-in-remote-ngschool-server)
          * [Working in VirtualBox](#working-in-virtualbox)
-      * [Materials not included in github repo](#materials-not-included-in-github-repo)
-         * [De novo assembly](#de-novo-assembly)
+      * [Cloning the repository](#cloning-the-repository)
+         * [Materials not included in github repo](#materials-not-included-in-github-repo)
+            * [De novo assembly](#de-novo-assembly)
+            * [Microbial genomics](#microbial-genomics)
 
 
 ## Dependencies
@@ -101,12 +104,17 @@ First, [get VM image](http://zdglab.iimcb.gov.pl/cluster/ngschool/2017/VM/Ubuntu
 and [create VM in VirtualBox using this image](http://linuxbsdos.com/2015/11/13/how-to-import-a-virtual-machine-image-into-virtualbox/). 
 Then run VM (u: ngschool p: ngschool), enter NGSchoool directory `cd /ngschool/2017` and you are ready to work. 
 
-## Materials not included in github repo
+## Cloning the repository
 **This has to be done only if you wish to explore materials before the school. Otherwise, ignore below.**  
-To clone repo, use `git clone --recursive https://github.com/NGSchoolEU/2017.git`
+To clone repo, use `git clone --recursive https://github.com/NGSchoolEU/2017.git`  
+Below, we're providing links to data not included in this repository. 
 
-### De novo assembly
+### Materials not included in github repo
 You can get it using `wget -nc -r -np HTTP`
+
+#### De novo assembly
 - http://spades.bioinf.spbau.ru/~school/genomics/
 - http://spades.bioinf.spbau.ru/~school/transcriptomics/
 
+#### Microbial genomics
+- http://bugs.sgul.ac.uk/ngschool-2017/
