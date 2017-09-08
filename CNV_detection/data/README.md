@@ -11,6 +11,6 @@ install.packages("matrixStats")
 source("https://bioconductor.org/biocLite.R") # bioconductor
 biocLite("DNAcopy")
 biocLite("GenomicRanges")
-biocLite("RSubread")
+biocLite("Rsubread")
 biocLite("WES.1KG.WUGSC"
 biocLite("CODEX")
