@@ -101,12 +101,17 @@ First, [get VM image](http://zdglab.iimcb.gov.pl/cluster/ngschool/2017/VM/Ubuntu
 and [create VM in VirtualBox using this image](http://linuxbsdos.com/2015/11/13/how-to-import-a-virtual-machine-image-into-virtualbox/). 
 Then run VM (u: ngschool p: ngschool), enter NGSchoool directory `cd /ngschool/2017` and you are ready to work. 
 
-## Materials not included in github repo
+# Cloning the repository
 **This has to be done only if you wish to explore materials before the school. Otherwise, ignore below.**  
 To clone repo, use `git clone --recursive https://github.com/NGSchoolEU/2017.git`
+Below, we're providing links to data not included in this repository: 
+
+## Materials not included in github repo
+You can get it using `wget -nc -r -np HTTP`
 
 ### De novo assembly
-You can get it using `wget -nc -r -np HTTP`
 - http://spades.bioinf.spbau.ru/~school/genomics/
 - http://spades.bioinf.spbau.ru/~school/transcriptomics/
 
+###
+- http://bugs.sgul.ac.uk/ngschool-2017/
