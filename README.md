@@ -1,6 +1,7 @@
 # NGSchool2017 materials
 
-Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu/2017).
+Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu/2017).  
+
 You can sync all data using (**don't do it during workshops!**):
 ```bash
 rsync -avz 192.168.1.111:/ngschool/2017 ~/ngschool
