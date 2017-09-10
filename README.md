@@ -4,7 +4,8 @@ Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu
 
 You can sync all data using (**don't do it during workshops!**):
 ```bash
-rsync -avz 192.168.1.111:/ngschool/2017 ~/ngschool
+rsync -avz USERNAME@192.168.1.111:/ngschool/2017 ~/ngschool
+# and type your password
 ```
 
 **Table of Contents**  
@@ -130,7 +131,8 @@ You can get below using `wget -nc -r -np HTTP`
 
 Note, you can also sync all data using:
 ```bash
-rsync -avz 192.168.1.111:/ngschool/2017 ~/ngschool
+rsync -avz USERNAME@192.168.1.111:/ngschool/2017 ~/ngschool
+# and type your password
 ```
 
 #### Introduction
