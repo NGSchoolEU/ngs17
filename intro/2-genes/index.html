@@ -1,0 +1,104 @@
+<html><body>
+
+    <h1>Exercise 2: Genome annotation, RNA-seq</h1>
+
+    <p> In this exercise, we will annotate a short portion of the
+    genome of the
+    fungus <i><a href="https://en.wikipedia.org/wiki/Aspergillus_nidulans">Aspergillus
+    nidulans</a></i>
+    using <a href="http://bioinf.uni-greifswald.de/augustus/">Augustus
+    gene finder</a> and compare Augustus annotation with RNA-seq
+    results and with reference annotation from the RefSeq
+    database.</p>
+
+    <h2>Task A: Running Augustus</h2>
+
+      <p>Augustus is based on a probabilistic model, which has
+      parameters describing various properties of a genome, such as
+      codon frequencies, splicing motifs, length and number of introns
+      and exons. Since these features vary between genomes, the
+      parameters need to be trained for each new genome or a group of
+      closely related genomes. To see this effect, we will run
+      Augustus with both <i>A. nidulans</i> parameters and parameters for the
+      human genome.
+
+      <h3>Step 1: Run Augustus</h3>
+
+      <p>You will find cca 38kb of <a href="https://www.ncbi.nlm.nih.gov/genome?term=aspergillus%20fumigatus">A. nidulans genome</a> in file <a href="data/ref2.fasta">ref2.fasta</a>. 
+      Place it to your work directory, then run the following commands:</p>
+
+<pre>
+augustus --species=anidulans ref2.fasta > augustus-anidulans.gtf
+augustus --species=human ref2.fasta > augustus-human.gtf
+</pre>
+
+      <h3>Step 2: Examine the output</h3>
+
+      <p>Look at the resulting <a href="http://mblab.wustl.edu/GTF22.html">GTF</a> files. Suggest a simple way how you
+      can count the number of genes in each file (e.g. using grep
+      command). Which file contains more genes? Which file contains
+      more exons (represented by CDS records)?</p>
+
+      <p>File <a href="data/annot.gff">annot.gff</a> contains gene annotation from the RefSeq database. 
+	It is in <a href="http://gmod.org/wiki/GFF3">GFF3 format</a>, similar to GTF. How many genes and CDS rows are in this file?
+       </p>
+
+
+
+	<h2>Task B: Aligning RNA-seq reads</h2>
+
+<p>RNA-seq reads were extracted
+from <a href="https://www.ncbi.nlm.nih.gov/sra/?term=SRR4048918">SRA
+record SRR4048918</a>. Look at the file <a href="data/rnaseq.fastq">rnaseq.fastq</a>. How
+long are the reads?</p>
+
+
+<h3>Step 1: Run Tophat</h3>
+
+<p>We will
+use <a href="http://ccb.jhu.edu/software/tophat/index.shtml">TopHat</a>
+to align the reads to the genome. Tophat can align reads spanning exon
+boundaries, thus identifying intron positions. Run TopHat and sort/index the
+resulting bam file as follows:</p>
+
+<pre>
+bowtie2-build ref2.fasta ref2.fasta
+tophat2 -i 10 -I 10000 --max-multihits 1 --output-dir rnaseq ref2.fasta rnaseq.fastq
+samtools sort rnaseq/accepted_hits.bam rnaseq
+samtools index rnaseq.bam
+</pre>
+
+<h3>Step 2: Examine output</h3>
+	 	  
+<p>In addition to the bam file, TopHat produced several other files in
+the rnaseq folder. What can you learn from them?</p>
+
+<h2>Task C: Visualizing the results</h2>
+
+<p>You can use IGV browser to open all three annotation files (augustus-*.gtf, annot.gff) as well as the RNA-seq bam file and compare them.
+
+          <ol>
+              <li> Start IGV browser by using <tt>igv</tt> command
+              <li> Select the reference file <tt>ref2.fasta</tt>
+                by using menu Genomes -> Load Genome from File 
+              <li> Open all additional files using menu File -> Load from File
+              <li> Exons are shown as thicker boxes, introns are thinner.
+            </ol>
+
+<p><em>Questions:</em>
+            <ul>
+              <li>Find some differences between Augustus with human
+              parameters and the RefSeq annotation. 
+
+              <li>Find some differences between Augustus with
+              A.nidulans parameters and the RefSeq annotation. Which
+              parameters have yielded a more accurate prediction?
+
+	     <li>Zoom in to one of the genes with high expression
+	     level. Do you see spliced read alignments supporting the
+	     annotated intron boundaries?
+            </ul>
+
+
+	  
+</body></html>

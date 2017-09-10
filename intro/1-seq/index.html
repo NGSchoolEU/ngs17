@@ -1,0 +1,335 @@
+<html><body>
+
+    <h1>Exercise 1: Assembling genomes from short and long reads</h1>
+
+    <p> In this exercise, we will attempt to assemble 500 Kbp section
+      of the <i>E. coli</i> genome. We will use both short reads from
+      Illumina and long reads from Oxford Nanopore MinION and we will
+      compare the resulting assemblies.
+
+      <h2>Task A: Assembling short reads</h2>
+
+      <p>
+      We will use two files coming from Illumina MiSeq platform
+      (source ftp://ussd-ftp.illumina.com/Data/SequencingRuns/MG1655/).
+      <ul>
+	<li><a href="data/miseq_R1.fastq.gz">data/miseq_R1.fastq.gz</a>
+	<li><a href="data/miseq_R2.fastq.gz">data/miseq_R2.fastq.gz</a>
+      </ul>
+
+      <p>
+	(Compared to the original data set, this data was filtered to
+	only include reads from the 500 Kbp region of our interest.)
+
+      <p>
+	<i>To preserve the original files, you can create a directory
+	  "work", link the data files in that directory. Links are
+	  pointers to the original files and they do not take
+	  additional space (compared to copies). You can use the
+	  following commands:</i>
+
+	  <pre>
+	    mkdir work
+	    cd work
+	    ln -s ../data/miseq_R1.fastq.gz
+	    ln -s ../data/miseq_R2.fastq.gz
+	  </pre>
+
+      <h3>Step 1: Examine the files</h3>
+
+      <p>Both files are compressed FASTQ files. To view the contents
+	of the file, you can use the command zless, e.g.:
+
+	<pre>zless miseq_R1.fastq.gz</pre>
+
+      <p>Note the structure of the file, which is split into 4-line
+	blocks, each block representing a single read; lines in the block
+	represent 1. read metadata, 2. read sequence, 3. separator + sign, and
+	4. read quality string.
+
+      <p>The two files are the result of pair-end sequencing, 'R1' contains
+	5'-end reads and 'R2' contains 3'-end reads.
+
+	<em>Question:</em>
+	<ul>
+	  <li> How many reads are in the 'R1' and 'R2' files? Are
+	    these numbers the same? Why? (you can achieve this with wc)
+
+	</ul>
+
+	<h3>Step 2: Running SPADES assembler</h3>
+
+	<em>If you did not install SPADES assembler yet, install it
+	  now.</em>
+
+	<p>
+	Running <tt>spades.py</tt> command will show you the command
+	line parameters. You can use the following parameters:
+
+	<pre>
+	  spades.py -t 2 -m 2 --pe1-1 miseq_R1.fastq.gz --pe1-2 miseq_R2.fastq.gz -o short-assembly > spades.log
+	</pre>
+
+	<p>The command should finish in several minutes. The results will be
+	  located in the subdirectory 'short-assembly' and the spades.log
+	  file will contain a report. The final assembly is stored in
+	  <tt>contigs.fasta</tt> file.
+	
+	<p><em>Questions:</em>
+	  <ul>
+	    <li> Explain the parameters used.
+	    <li> How many contigs has the final assembly?
+	    <li> SPADES has attempted the assemblies with de Bruijn graphs
+	      with several values of k. What are the differences between
+	      these assemblies? Can you determine which was the
+	      value of k that it used for the final version of the assembly?
+	    <li> What is the total length of the assembly? 
+	    <li> Can you tell which parts of the assembly correspond to unresolved repeats? (note: look at the information in fasta headers)
+	    <li> Did SPADES use the whole data set or only a subsample of the reads? (note: What would be the average coverage if all the reads were used?) 
+	  </ul>
+
+	<p>For future work, put the final assembly into your working directory
+	  and name it spades.fasta.
+
+	  <h3>Step 3: Basic assembly evaluation</h3>
+
+	  <p><em>If you did not install quast tool already, install it now.
+	    </em>
+
+	  <p>QUAST is a tool for collecting basic statistic about the assembly.
+
+	  <pre>
+	    quast.py spades.fasta
+	  </pre>
+
+	  <p>Examine the resulting files. Image included in the PDF file
+	  illustrates the concept of Nx statistics particularly well.
+
+	  <h2>Task B: Detailed assembly evaluation</h2>
+
+
+	  <p>Now we will compare our assembly to the reference
+	    sequence and try to determine what are the reasons for its
+	    fragmentation.
+
+	  <p>Besides the files we have worked with so far, we will
+	    also use <a href="data/ref.fasta">data/ref.fasta</a>,
+	    which is the corresponding fragment of the reference
+	    assembly of <em>E. coli</em> genome.
+
+	  <p>The plan is as follow:
+	    <ul>
+              <li>Map the Illumina reads to the reference.
+	      <li>Align the SPADES assembly to the reference.
+	      <li>Display everything in a simple browser
+            </ul>
+
+	    <h3>Step 1: Mapping the Illumina reads</h3>
+
+	  <p><em>If you did not install BWA and SAMTOOLS already,
+	      install them now.</em>
+
+	  <p>For mapping and alignments, we will use software BWA. The
+	    software first needs to create a Burrows-Wheeler-transform
+	    based index of the reference file and then it provides
+	    several methods for rapid alignment of short and long sequences
+	    to this reference file using the index.
+
+	  <ol>
+	    
+	  <li>Create index of ref.fasta:
+	    <pre>
+      bwa index ref.fasta </pre>
+
+	  <p>The resulting index is stored in several files with names
+	    <tt>ref.fasta.*</tt> The software will later automatically
+	    detect and use these files when referring to the ref.fasta
+	    file.
+
+	    <li>Align short reads to the reference. BWA provides method
+	      BWA-MEM for mapping short reads.
+
+	      <pre>
+      bwa mem ref.fasta miseq_R1.fastq.gz miseq_R2.fastq.gz > ref-miseq.sam</pre>
+
+	      <p><em>Questions:</em>
+		<ul>
+		  <li> The BWA-MEM tries to map reads in pairs. Can you
+		    identify from the progress report on screen what is
+		    the distance between the pairs of reads?
+                  <li> Examine the resulting SAM file. Can you identify
+		    which reads were successfully mapped to the reference?
+		    Optional: find the description of SAM file format and
+		    try to figure out actual alignment for some of the reads.
+		</ul>
+		<p>&nbsp;
+
+		<li>As you can see, SAM file is somewhat large and difficult
+		  to view without using additional tools. To prepare it for
+		  viewing, we will use SAMTOOLS to compress the file,
+		  sort the alignment along the reference, and create an
+		  index to the file in order for a viewer to efficiently
+		  access the relevant portions of the file.
+
+		  <pre>
+		    # convert result from sam to bam file format and sort it by coordinate
+		    samtools view -S -b ref-miseq.sam | samtools sort - ref-miseq
+		    # create index for the bam file
+		    samtools index ref-miseq.bam
+		  </pre>
+
+	  </ol>
+
+	  <h3>Step 2: Alignment of SPADES assembly to the reference</h3>
+
+	  <p>You can similarly align the SPADES assembly to the reference. For
+	  longer sequences, BWA provides method BWA-SW method: instead
+	  of <tt>bwa mem</tt>, use <tt>bwa bwasw</tt>. Since you have
+	  already created the index, you can skip this step. Name the
+	  final BAM file <tt>ref-spades.bam</tt>.
+
+	    <h3>Step 3: Viewing the alignment results</h3>
+
+	  <p><em>If you did not install IGV already, install it now.</em>
+
+	  <p>We will use IGV browser to view the results.
+	    <ol>
+	      <li> Start IGV browser by using <tt>igv</tt> command
+	      <li> First, you need to select the correct reference file
+		by using menu Genomes -> Load Genome from File (use
+		ref.fasta)
+	      <li> Then you can load both alignments (BAM files) as
+		tracks through the menu File -> Load from File
+	      <li> Zoom in to view the alignments
+            </ol>
+
+	  <p><em>Questions:</em>
+	    <ul>
+	      <li> Are there errors in reads? Are there errors in the
+		assembly?
+	      <li> Is the whole reference covered by your assembly?
+	      <li> If there are gaps in the assembly, try to figure out
+		why.
+	      <li> If there are overlapping contigs, try to figure our
+		why they were not merged in the assembly.
+            </ul>
+	   
+	    <h2>Task C: Long-read assembly</h2>
+
+	  <p>We will try to assemble the same region
+	    of <em>E.coli</em> genome from long reads from Oxford
+	    Nanopore MinION sequencer. Data come from a public data
+	    set produced by Nick Loman and it was filtered to only
+	    contain reads overlapping our region:
+	    <ul>
+	      <li><a href="data/nanopore.fasta.gz">data/nanopore.fasta.gz</a>
+	    </ul>
+
+	    <h3>Step 1: Assemble reads using CANU assembler</h3>
+
+	    <p><em>This step is memory and time intensive; your
+	      mileage may vary depending on the parameters of your
+	      computer. If you want to proceed with this step anyways
+	      and did not install CANU assembler yet, you should do it
+	      now. Otherwise, you may skip this step and use the
+	      replacement result
+	      file <a href="data/canu.fasta">data/canu.fasta</a>.</em>
+
+	    <p>
+	      <pre>
+		canu -d long-reads -p canu -nanopore-raw nanopore.fasta.gz genomeSize=0.5M useGrid=false maxThreads=2 maxMemory=8</pre>
+
+	    <p>Copy the resulting file to file <tt>canu.fasta</tt>.
+
+	      <p><em>Question:</em>
+	      <ul>
+		<li>How many contigs has the assembly?
+              </ul>
+
+	      
+        <h3>Step 2: Compare the assembly with the reference</h3>
+	
+	<ul>
+	  <li> Align both reads and the canu assembly to the reference
+	    using BWA-SW tool.
+	  <li> Did each read / the canu contig align as a single alignment?
+	    Why do you think this is the case?
+	  <li> Use IGV to display the result and attempt to compare
+	    two assemblies in the terms of continuity, coverage of the reference,
+	    and similarity to the reference.
+	</ul>
+
+	<em>Optional questions:</em> BWA with default setting is
+	clearly not the ideal tool for working with reads and
+	sequences with high error rate. To mitigate this problem, you
+	can explore the BWA parameters suggested for long reads,
+	alternative aligners such as LAST, or other programs for comparison
+	of sequence assemblies such as nucmer / mummerplot tool from
+	MUMMER package.
+	      
+
+	<h3>Step 3: "Polish" the assembly</h3>
+	
+	<em>If you did not yet install PILON software, you can install it
+	  now.</em>
+
+	    <p> One of the problems of CANU assembly is its high error
+	      rate (since it is essentially a concatenation of
+	      segments from the original high-error reads. One way of
+	      solving this problem is to align high-quality short
+	      reads (Illumina) to the assembly and then use them to
+	      correct the sequencing errors.
+
+	      <ul>
+		<li> First, use BWA-MEM to align Illumina data to CANU
+		assembly. Save the resulting file under the
+		  name <tt>canu-miseq.bam</tt>
+		<li> Run PILON as follows:
+		  <pre>
+  java -Xmx20G -jar /opt/broad/pilon-1.21.jar --genome canu.fasta --outdir canu-pilon  --changes --tracks --frags canu-miseq.bam > canu-miseq-pilon.log</pre>
+		<li> Align the resulting assembly to the reference genome and
+		  use IGV to compare with the previous results.
+		<li> Optional: you may repeat bwa and pilon several times,
+		  since after correction more short reads may aligned to
+		  the assembly.
+	       </ul>
+	      
+	    
+	 
+<!--
+<h1>Software installation instructions</h1>
+
+<p>Practically all necessary software should be installed in conda <a href="https://github.com/NGSchoolEU/2017#working-in-remote-ngschool-server">according to instructions for participants</a>. However, the software can also be installed directly, as described below.</p>
+
+<a name="spades"></a><h2>SPADES</h2>
+
+<ul>		 
+<li><a href="http://cab.spbu.ru/software/spades/">Webpage</a>
+<li>You can download and install Spades by the following commands:
+<pre>
+wget http://cab.spbu.ru/files/release3.11.0/SPAdes-3.11.0-Linux.tar.gz
+tar xf SPAdes-3.11.0-Linux.tar.gz
+./SPAdes-3.11.0-Linux/bin/spades.py
+</pre>
+
+</ul>
+
+<a name="quast"></a><h2>Quast</h2>
+
+<ul>
+<li><a href="http://quast.sourceforge.net/">Webpage</a>
+<li>You can download and install Spades by the following commands:
+<pre>
+wget https://github.com/ablab/quast/archive/quast_4.5.tar.gz
+</pre>
+</ul>
+
+<a name="quast"></a><h2>BWA</h2>
+
+<pre>
+git clone https://github.com/lh3/bwa.git
+cd bwa; make
+</pre>
+
+	  
+</body></html>

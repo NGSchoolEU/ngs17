@@ -1,0 +1,106 @@
+<html>
+  <body>
+    <h1>Excercise 3: Comparative genomics / Positive selection</h1>
+    
+<p>
+IGF1R (Insulin-like growth factor 1 receptor) is a gene central to several growth pathways and has been discovered to be under positive selection in the marmoset genome, and is likely strongly related to the small statue of marmosets.
+
+<p>
+Marmoset Genome Sequencing and Analysis Consortium. The common marmoset genome provides insight into primate biology and evolution. Nature Genetics, 46(8):850-857. 2014. <a href="http://dx.doi.org/10.1038/ng.3042">paper here</a>
+
+<p>
+In this exercise we will attempt to reconstruct some of the findings from the paper.
+
+<h2>Step 1: Download files and install necessary packages</h2>
+
+<p>
+  You can find all data files in <a href="data/">data subdirectory</a>
+  
+<p>
+You will need some additional packages, if you did not install them previously (install as root):
+<pre>
+sudo apt-get install muscle paml seaview pymol bioperl
+</pre>
+
+<h2>Step 2: Look at the files</h2>
+
+<p>
+We will start from the alignment file which stores DNA sequences of IGF1R in several mammals (the alignment is in Phylip format): <a href="data/igf1r.phy">data/igf1r.phy</a>
+
+<p>
+Species are named in UCSC Genome Browser nomenclature: hg - human, panTro - chimp, ponAbe - orang, rheMac - macaque, calJac - marmoset, mm9 - mouse, rn4 - rat, canFam - dog
+
+<p>
+  <em>Question:</em> Explore this file (you can either look at the file directly, or you can use a seaview viewer) and look at the differences between individual sequences.
+
+<p>
+Look at the file <a href="data/tree_marmoset.nh">data/tree_marmoset.nh</a> which contains a phylogenetic tree that we will use in the rest of the analysis. 
+Note that in tree_marmoset.nh we have marked a branch leading to marmoset with mark #1.
+
+<p>
+  <em>Optional question:</em> Use the alignment to build a phylogenetic tree (e.g. by using program phyml). Does this tree differ from what would you expect? Are there any weird branch lengths?
+
+<h2>Step 3: Identify sites under positive selection</h2>
+
+<p>
+  In this step, we will try to identify sites that are under positive selection in marmoset lineage. We will use "Bayes Empirical Bayes" method from PAML software.
+
+  <ul>
+    <li> For the analysis, we need to say which branches are "foreground" and which branches are "background". Positive selection is only allowed on "foreground" branches, "background" branches can only have neutral evolution or negative selection. We specify this in the tree file with mark #1
+    <li> Running PAML is complicated, use a wrapper script <a href="data/run_beb.pl">data/run_beb.pl</a>
+<pre>      
+ ./run_beb.pl igf1r.phy tree_marmoset.nh hg19 0.5 myout
+</pre>
+ <li> (If you want to know what individual parameters mean, just run the script without any parameters, it will display some description.)
+ <li> The script creates a temporary directory and it stores all the temporary files there. Look at the following files:
+<ul>   
+<li> codeml.ctl - this is a control file that tells PAML what type of analysis should run; it also contains all the parameters. Ordinarily, you would write this file for running PAML. Look at the file and see whether you can interpret some of the parameters (you can also look in [http://abacus.gene.ucl.ac.uk/software/pamlDOC.pdf PAML manual]).
+<li> paml.out - this file contains the results of PAML analysis; the script automatically takes this file and parses data needed in our example out, but there is so much more information there... Look through this file and see whether you can find any interesting information there.
+<li> The main result of the script is a file myout.list. This file contains list of codon positions that may be under positive selection in marmoset and for each site it shows a posterior probability of the site being under positive selection (values over 0.9 are reasonably good, values below 0.9 cannot be relied on). (Note that BEB analysis should only be run with a prior knowledge that the gene is indeed under positive selection.)
+</ul>
+  </ul>
+
+<p>  
+ How would you examine positive selection on a branch to macaque instead of marmoset? (You will need files myout.* later, so if you use run_beb again, change the last parameter.)
+
+<h2>Step 4: Find a good reference</h2>
+
+To identify whether the sites we have found have any relevance to the protein function, we need to find a good reference. We will look for it in the PDB (protein database).
+<ul>
+<li> Go to the <a href="http://www.rcsb.org/">PDB database at www.rcsb.org</a> and try to find different models of IGF1R.
+<li> For further analysis, we will use the protein structure with accession 1IGR (you can try to use other references that you found later)
+<li> Download FASTA file (contains the sequence of the reference protein) and PDB file (contains the 3D structure); we have also saved these files for you in
+  <a href="data/1igr.fa">data/1igr.fa</a> and <a href="data/1igr.pdb">data/1igr.pdb</a>
+<li> You can view the PDB structure in program pymol (try this!)
+<pre>  
+ pymol 1igr.pdb
+</pre>
+</ul>
+
+<h2>Step 5: Mapping sites to the reference</h2>
+
+<ul>
+  <li> Compare files myout.fa (this is the human protein from your alignment) and 1igr.fa (this is the reference from PDB file). You can do this visually. What differences do you see?
+  <li> We need to remap site that we identified to the PDB reference. Use the <a href="data/remap-prot.pl">remap-prot.pl script</a>:
+<pre>    
+  ./remap-prot.pl myout.fa 1igr.fa myout.list >remapped.list
+</pre>  
+<li> Compare visually the files myout.list and remapped.list. The new file contains the same sites, but coordinates are shifted to match the PDB reference.
+</ul>
+  
+<h2>Step 6: Viewing the results</h2>
+
+<ul>
+<li> Run <a href="data/color_bases.pl">data/color_bases.pl</a> script:
+ ./color_bases.pl 1igr.pdb remapped.list 0.95 0.5 final-result
+<li> This script runs pymol, executes some commands and saves the final session in the file final-result.pse so that you can look at the result.
+<li> Look at the file final-result.pml - it contains all the pymol commands that were run.
+<li> View the result in final-result.pse.
+<pre>
+  pymol final-result.pse
+</pre>  
+<li> Sites that are likely under positive selection are highlighted in red. Search for the known information about functional sections of IGF1R. Can you make any conclusions about potential function of these sites?
+</ul>   
+
+  </body>
+</html>
