@@ -28,20 +28,25 @@ Workshop folder for Hi-C analysis consists of 4 main parts:
 
 [Most useful guide so far](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/), in brief (online only):
 
+```bash
 sudo apt-get update
 sudo apt-get install docker-ce
 sudo docker run hello-world
+```
 
 #### Docker run from existing image
-
+```bash
 sudo docker load -i hiclib-notebook.tar
 
 pwd .
 
 sudo docker run -it -v <path_to_workshop_dir>/:/home/jovyan/ -p 8888:8888 hiclib-notebook
+```
 
 #### Docker build for advanced users
 
 If you would like to use Dockerfile or its components, it can be found in the current folder (DOCKER). Compilation of new docker image is dependent on the internet access and might be time-consuming. 
 
+```bash
 docker build -t hiclib-notebook .
+```
