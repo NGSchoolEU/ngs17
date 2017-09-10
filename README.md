@@ -79,6 +79,12 @@ source("https://bioconductor.org/biocLite.R")
 biocLite('parallel'); biocLite('RCurl'); biocLite('gdata'); biocLite('Hmisc'); biocLite('matrixStats'); biocLite('DNAcopy'); biocLite('GenomicRanges'); biocLite('Rsubread'); biocLite('WES.1KG.WUGSC'); biocLite('CODEX'); biocLite("ChIPseeker");
 ```
 
+```bash
+sudo R # Differential chip-seq analysis
+biocLite("csaw"); biocLite("GenomicRanges"); biocLite("GenomicAlignments"); biocLite("GenomicFeatures"); biocLite("edgeR"); biocLite("TxDb.Mmusculus.UCSC.mm10.knownGene"); biocLite("org.Mm.eg.db")
+install.packages("ProjectTemplate")
+```
+
 ### Manual installation
   - [rnaQUAST](http://cab.spbu.ru/software/rnaquast/)
 
