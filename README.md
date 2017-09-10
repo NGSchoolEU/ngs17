@@ -11,7 +11,9 @@ Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu
          * [Working in VirtualBox](#working-in-virtualbox)
       * [Cloning the repository](#cloning-the-repository)
          * [Materials not included in github repo](#materials-not-included-in-github-repo)
-            * [De novo assembly](#de-novo-assembly)
+            * [Introduction](#introduction)
+            * [De novo assembly](#de-novo-assembly)    
+            * [Hi-C](#hi-c)    
             * [Microbial genomics](#microbial-genomics)
 
 
@@ -110,11 +112,20 @@ To clone repo, use `git clone --recursive https://github.com/NGSchoolEU/2017.git
 Below, we're providing links to data not included in this repository. 
 
 ### Materials not included in github repo
-You can get it using `wget -nc -r -np HTTP`
+You can get below using `wget -nc -r -np HTTP`
+
+#### Introduction
+All exercises are in: http://compbio.fmph.uniba.sk/temp/ngschool2017/
+- http://compbio.fmph.uniba.sk/temp/ngschool2017/everything.zip
 
 #### De novo assembly
 - http://spades.bioinf.spbau.ru/~school/genomics/
 - http://spades.bioinf.spbau.ru/~school/transcriptomics/
+
+#### Hi-C
+Get ONE of below files: 
+- http://makarich.fbb.msu.ru/agalicina/2017/NGS/hic_workshop_2017_withimage.tar.gz (2GB, docker image compiled)
+- http://makarich.fbb.msu.ru/agalicina/2017/NGS/hic_workshop_2017_light.tar.gz (0.7GB, without docker image compiled)
 
 #### Microbial genomics
 - http://bugs.sgul.ac.uk/ngschool-2017/
