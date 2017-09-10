@@ -1,0 +1,528 @@
+---
+title: "NGS2017 Differential ChIP-seq Workshop"
+output: html_notebook
+---
+
+In this R notebook we will go through a typical differential ChIP-seq analysis workflow starting from indexed bam files and using R BioConductor package `csaw`
+
+### Project setup
+We will use R package `projectTemplate` to easily set up and manage directory structure, libraries, etc
+
+```{r, echo=TRUE, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+## Check that the required packages are installed. If not, install them.
+if(!("csaw" %in% installed.packages())) {source("http://bioconductor.org/biocLite.R"); biocLite("csaw")}
+if(!("GenomicRanges" %in% installed.packages())) {source("http://bioconductor.org/biocLite.R"); biocLite("GenomicRanges")}
+if(!("GenomicAlignments" %in% installed.packages())) {source("http://bioconductor.org/biocLite.R"); biocLite("GenomicAlignments")}
+if(!("GenomicFeatures" %in% installed.packages())) {source("http://bioconductor.org/biocLite.R"); biocLite("GenomicFeatures")}
+if(!("edgeR" %in% installed.packages())) {source("http://bioconductor.org/biocLite.R"); biocLite("edgeR")}
+if(!("TxDb.Mmusculus.UCSC.mm10.knownGene" %in% installed.packages())) {source("http://bioconductor.org/biocLite.R"); biocLite("TxDb.Mmusculus.UCSC.mm10.knownGene")}
+if(!("org.Mm.eg.db" %in% installed.packages())) {source("http://bioconductor.org/biocLite.R"); biocLite("org.Mm.eg.db")}
+if(!("ProjectTemplate" %in% installed.packages())) {install.packages("ProjectTemplate")}
+
+## Create the directory structure
+file.remove("README.md")
+library(ProjectTemplate)
+if (!dir.exists("config")) {
+	create.project(getwd(), merge.strategy = "allow.non.conflict")
+}
+
+## Set the path to data directory
+data.path <- paste0(getwd(), "/differential.ChIP-seq.data")
+## Soft link to data directory
+system(paste0("ln -s ", data.path, "/* ./data"))
+
+## Copy project configuration file
+system("cp global.dcf ./config")
+
+## Load the project
+load.project()
+```
+
+
+# Step 1: Counting reads into windows
+### Check mapping stats
+```{r, echo=TRUE}
+## Set the path to bam files
+path.to.bams <- "./data/bams/"
+## Get bam file names
+bam.files <- list.files(path.to.bams, ".bam$", recursive = T, full.names = T)
+print(bam.files)
+## Extract sample names from bam files
+snames <- gsub(".bam", "", basename(bam.files))
+print(snames)
+## Calculate and report mapping stats
+if (file.exists("./cache/diag.stats.rds")) {
+	diag.stats <- readRDS("./cache/diag.stats.rds")
+} else {
+	diagnostics <- list()
+	for (bam in bam.files) {
+	    total <- countBam(bam)$records
+	    mapped <- countBam(bam, param=ScanBamParam(
+	        flag=scanBamFlag(isUnmapped=FALSE)))$records
+	    marked <- countBam(bam, param=ScanBamParam(
+	        flag=scanBamFlag(isUnmapped=FALSE, isDuplicate=TRUE)))$records
+	    diagnostics[[bam]] <- c(Total=total, Mapped=mapped, Marked=marked)
+	}
+	diag.stats <- data.frame(do.call(rbind, diagnostics))
+	diag.stats$Prop.mapped <- round(diag.stats$Mapped/diag.stats$Total*100, 2)
+	diag.stats$Prop.marked <- round(diag.stats$Marked/diag.stats$Mapped*100, 2)
+	diag.stats$Total.pairs <- diag.stats$Total / 2
+	diag.stats$Mapped.pairs <- diag.stats$Mapped / 2
+	diag.stats$library.size <- diag.stats$Mapped.pairs * (1 - diag.stats$Prop.marked/100)
+	rownames(diag.stats) <- basename(rownames(diag.stats))
+	saveRDS(diag.stats, "./cache/diag.stats.rds")
+}
+print(diag.stats)
+```
+
+### Determine parameters for counting the reads.
+First we'll try to estimate read fragment from read cross-correlation
+```{r calculate average fragment length, echo=TRUE, fig.width=10}
+## Generate the cross-correlation plot to determine fragment size
+if (file.exists("./cache/correlated.reads.rds")) {
+	correlated.reads <- readRDS("./cache/correlated.reads.rds")
+} else {
+	dedup.on <- readParam(dedup=TRUE, minq=30, restrict=paste0("chr", c(1:19, "X", "Y")))
+	max.delay <- 1000
+	correlated.reads <- correlateReads(bam.files, max.delay, param=dedup.on)
+	saveRDS(correlated.reads, "./cache/correlated.reads.rds")
+}
+plot(0:max.delay,  correlated.reads, ylab="CCF", xlab="Delay(bp)")
+abline(v = seq(150, 200, 10), lty=2)
+```
+From the cross-correlation plot it appears that the most abundant fragment length is around 180 bp. So we'll set the fragment length accordingly. Now let's look at the average peak size.
+```{r calculate average peak size, echo=TRUE, fig.width=10}
+if (file.exists("./cache/peak.size.rds")) {
+	collected <- readRDS("./cache/peak.size.rds")
+} else {
+	collected <- list()
+	for (curbam in bam.files) {
+	    windowed <- windowCounts(curbam, spacing=50, width=50, param=dedup.on)
+	    rwsms <- rowSums(assay(windowed))
+	    maxed <- findMaxima(rowRanges(windowed), range=1000, metric=rwsms)
+	    collected[[curbam]] <- profileSites(curbam, rowRanges(windowed)[maxed], param=dedup.on, weight=1/rwsms[maxed])
+	}
+	saveRDS(collected, "./cache/peak.size.rds")
+}
+clrs <- rep(c("dodgerblue", "forestgreen", "maroon", "yellow", "orange", "darkred", "darkgrey", "black"), 3)
+xranged <- as.integer(names(collected[[1]]))
+plot(xranged, collected[[1]], type="l", col = clrs[1], xlim=c(-1000, 1000), lwd=2, xlab="Distance (bp)", ylab="Relative coverage per base", ylim = c(0, 1), xaxt = "n", main = "Coverage plot")
+for (i in 2:length(collected)) {
+    lines(xranged, collected[[i]], col = clrs[i], lwd = 2)
+}
+legend("topright", fill = clrs[1:length(bam.files)], snames)
+abline(v=seq(-500, 500, 50), col="dodgerblue", lty=2)
+axis(1, at = seq(-1000, 1000, 200), labels = seq(-1000, 1000, 200))
+```
+It looks like most of coverage falls between -150 and 150 bp. So we'll set the window width to 300 bp and shift the windows by half the window width.
+
+Let's set up counting parameters
+```{r set counting parameters, echo=TRUE}
+## Load the ENCODE blacklisted regions
+ENCODE.blacklist.mm10 <- readRDS("./data/ENCODE.blacklist.mm10.rds")
+## The length to which each read should be extended
+frag.len = 180
+## The size of the window
+window.width = 300
+## The step of the window
+spacing = window.width/2
+## The minimum number of reads across all samples in a given window to keep that window
+fltr = 10
+dedup.on <- readParam(dedup=TRUE, # ignore reads marked as duplicates
+					  minq=30, # ignore reads with mapping quality below 50
+					  discard = ENCODE.blacklist.mm10, # Discard reads falling into regions blacklisted by ENCODE
+					  restrict=paste0("chr", c(1:19, "X", "Y")), # restrict analysis to consensus chromosomes
+					  pe = "none") # treat the reads as single end
+
+```
+### Count reads into pre-determined regions
+Now we are all set to count the reads into windows.
+```{r count reads into windows, echo=TRUE}
+if (!file.exists(paste0("./cache/", "windowed.", window.width, "bp.counts.rds"))) {
+	windowed.counts <- windowCounts(bam.files, ext=frag.len, width=window.width, spacing = spacing, param = dedup.on, filter = fltr)
+	saveRDS(windowed.counts, file=paste0("./cache/", "windowed.", window.width, "bp.counts.rds"))
+}
+```
+We will also count the reads into large bins (20 kb) which could be used to account for particular biases. We won't really use them for this dataset.
+```{r count reads into large bins, echo=TRUE}
+if (!file.exists(paste0("./cache/", "binned.20kb.counts.rds"))) {
+	binned.counts <- windowCounts(bam.files, bin=TRUE, width=20000L, param = dedup.on, filter = fltr)
+	saveRDS(binned.counts, file=paste0("./cache/", "binned.20kb.counts.rds"))
+}
+```
+
+## Differential binding analysis
+```{r loading the files, echo=TRUE}
+## Set the significance cut offs
+window.pval.cut.off <- 0.01
+fdr.cut.off <- 0.05
+
+windowed.counts <- readRDS(paste0("./cache/", "windowed.", window.width, "bp.counts.rds"))
+large.bin.counts <- readRDS(paste0("./cache/", "binned.20kb.counts.rds"))
+## Check file order in count objects
+if(!all(windowed.counts$bam.files ==  large.bin.counts$bam.files)) {
+	stop("The file order in the count objects is not the same")
+}
+## Build the filenames
+experim.param <- read.csv("./data/mouse.encode.download.csv", stringsAsFactors = F)
+experim.param <- experim.param[match(basename(windowed.counts$bam.files), basename(experim.param$File.download.URL)),]
+print(experim.param)
+
+snames <- gsub(" ", ".", paste(experim.param$Biosample.term.name, experim.param$Biosample.Age))
+groups <- as.factor(gsub("(.*).1.*", "\\1", snames))
+snames <- paste(snames, 1:length(snames), sep = ".")
+
+```
+### Exploratory analyses
+#### Plot library sizes.
+```{r library sizes, echo=TRUE, fig.width=10}
+snames <- gsub(".bam", "", (basename(windowed.counts$bam.files)))
+barplot(windowed.counts$totals, names.arg = snames, las = 2, main = "Library size per sample")
+```
+
+#### Visualise abundance cut off
+```{r , echo=TRUE, fig.width=10}
+## Set the abundance cut off
+abundance.cut.off <- 4.5
+## Calculate average abundance for all the windows for filtering
+abundances <- aveLogCPM(asDGEList(windowed.counts))
+keep <- abundances > abundance.cut.off
+summary(keep)
+
+## Plot distribution of average abundances
+hist(abundances, breaks = 100, main = paste0(sum(keep), " windows left after filtering at ", abundance.cut.off, " cut off"))
+abline(v = abundance.cut.off, lty = 2, col = "maroon", lwd = 2)
+## Make a new object only containing the filtered windows
+filtered.counts <- windowed.counts[keep ,]
+## Calculate normalisation factors for different types of biases
+normfacs.comp <- normOffsets(large.bin.counts)
+normfacs.eff <- normOffsets(filtered.counts)
+```
+#### Visualise relationships between individual samples and the effect of normalisation
+We will plot an MA plot of the first sample against every other sample. We will also draw horisontal lines where y=0 would be if we were to apply specific scaling normalisations.
+```{r , echo=TRUE, fig.width=10}
+## Calculate cpm values for each sample (all windows included)
+adj.counts <- cpm(asDGEList(windowed.counts), log=TRUE)
+k <- 1 # Set the sample to serve as a reference
+par(mfrow=c(2, ncol(filtered.counts)/2) , mar=c(5,4,2,1.5))
+for (i in 1:(length(filtered.counts$bam.files))) {
+	cur.x <- adj.counts[,k]
+	cur.y <- adj.counts[,i]
+	smoothScatter(x=(cur.x+cur.y)/2, y=cur.x-cur.y, xlab="A", ylab="M", main=paste(snames[k], " vs", snames[i]))
+	all.dist <- diff(log2(normfacs.comp[c(i, k)]))
+	abline(h=all.dist, col="red")
+	all.dist <- diff(log2(normfacs.eff[c(i, k)]))
+	abline(h=all.dist, col="red", lty = 2)
+	abline(v = abundance.cut.off, lty = 2)
+}
+legend("topright", legend = c("Composition NormFac", "Efficiency NormFac", "Abundance cut-off"), lty = c(1, 2, 2), col = c(2, 2, 1), bty = "n")
+
+```
+#### Plot an MDS plot of the sampels
+```{r , echo=TRUE, fig.width=10}
+## Convert counts into a DGEList
+x <- asDGEList(filtered.counts)
+## Set normalisation scaling factors to the computed efficiency normalisation factors
+x$samples$norm.factors <- normfacs.eff
+## Annotate the samples
+x$samples$group <- groups
+x$samples$batch <- as.factor(gsub(" ", "", experim.param$Biosample.Age))
+rownames(x$samples) <- snames
+colnames(x$counts) <- rownames(x$samples)
+
+## Plot an MDS plot
+par(mfrow=c(1,2))
+plotMDS(cpm(x, normalized.lib.sizes = T, prior.count = 0.5, log = T), col = as.numeric(x$samples$group), main = "Coloured by group - efficiency normalisation", top = 1000)
+plotMDS(cpm(x, normalized.lib.sizes = T, prior.count = 0.5, log = T), col = as.numeric(x$samples$batch), main = "Coloured by batch - efficiency normalisation", top = 1000)
+
+```
+From the MDS plot we can see that there is a strong batch effect, as samples are separated according to batch along the 2nd dimension.
+
+### Differential binding analysis
+```{r differential binding analysis, echo=TRUE, fig.width=10}
+## Set up the design matrix
+des <- model.matrix(~ 0 + x$samples$group)
+colnames(des) <- levels(x$samples$group)
+
+x <- estimateDisp(x, design = des)
+
+## Make variance vs abundance plots
+par(mfrow=c(1,2))
+plotBCV(x)
+## Fit a model
+fit <- glmQLFit(x, des, robust=TRUE)
+plotQLDisp(fit)
+
+## Set up the contrast of interest
+ForeVsHind <- makeContrasts(forebrain - hindbrain, levels = des)
+## Run quasi-likelihood F test
+results <- glmQLFTest(fit, contrast = ForeVsHind)
+
+sum.table <- as.data.frame(rbind(
+	window.level.pVal.lt.0.01 = c(
+		"total.count" = nrow(results$table),
+		"all.DB" = sum(results$table$PValue < window.pval.cut.off),
+		"DB.Up" = sum(results$table$PValue < window.pval.cut.off  & results$table$logFC > 0),
+		"DB.Down" = sum(results$table$PValue < window.pval.cut.off  & results$table$logFC < 0))))
+
+## Draw the MA plot for individual windows
+par(mfrow=c(1,1))
+smoothScatter(results$table$logCPM, results$table$logFC, main = paste0(sum.table$DB.Up, " up, ", sum.table$DB.Down, " down\nat uncorrected pVal=", window.pval.cut.off))
+abline(h=0, lty = 2, lwd = 2)
+points(results$table$logCPM[results$table$PValue <= window.pval.cut.off], results$table$logFC[results$table$PValue < window.pval.cut.off], col="darkred", cex=0.5)
+
+```
+
+It's not very striking, but it looks like there is a trended bias in the above MA plot, i.e. higher abundance windows tend to shift slightly towards one of the conditions. Another way of looking at it, DB windows with average logCPM > 6 are mostly up-regulated. We will try to correct for that bias later. But first, to finish with this "first pass" analysis, let's cluster adjacent windows and see how many differentially bound clusters we get after correcting for multiple testing. Combining the test for the windows within the same cluster does not take direction into account. I.e. we could have some depleted and some enriched windows in the same cluster and as long as some (or all of them) are significant, the combined p value will likely be significant too. So to "assign" a direction to the cluster, we will take the window with the lowest p value and use it to describe the entire cluster, i.e. the direction of change.
+```{r , echo=TRUE}
+## Cluster overlapping and adjacent windows into clusters (if two windows are more than window apart - don't merge them). Use maximum cluster size set in the parameters file. If a cluster is larger than the maximum size, it is split into 2 equal clusters.
+## Set the maximum cluster size
+max.cluster.size <- 7000L
+merged <- mergeWindows(rowRanges(filtered.counts), tol = 1L, max.width = max.cluster.size)
+## Plot size distribution of clustered windows
+hist(width(merged$region), breaks = 100)
+
+## Combine p values of the clustered windows
+tabcom <- combineTests(merged$id, results$table)
+
+## Add the "best window" info for each cluster. "Best window" is defined as the window with the smallest p value in a given cluster.
+tab.best <- getBestTest(merged$id, results$table)
+colnames(tab.best) <- paste0("window.", colnames(tab.best))
+tabcom <- cbind(tabcom, tab.best)
+print(head(tabcom[order(tabcom$PValue),]))
+
+## Add status
+tabcom$status <- "NS"
+tabcom$status[tabcom$FDR < fdr.cut.off & tabcom$window.logFC > 0] <- "Up"
+tabcom$status[tabcom$FDR < fdr.cut.off & tabcom$window.logFC < 0] <- "Down"
+sum.table <- rbind(
+    window.level.pVal.lt.0.01 = c(
+        "total.count" = nrow(results$table),
+        "all.DB" = sum(results$table$PValue < window.pval.cut.off),
+        "DB.Up" = sum(results$table$PValue < window.pval.cut.off  & results$table$logFC > 0),
+        "DB.Down" = sum(results$table$PValue < window.pval.cut.off  & results$table$logFC < 0)),
+    cluster.level.pVal.lt.0.1 = c(
+        "total.count" = nrow(tabcom),
+        "all.DB" = sum(tabcom$status != "NS"),
+        "DB.Up" = sum(tabcom$status == "Up"),
+        "DB.Down" = sum(tabcom$status == "Down")))
+rownames(sum.table) <- c(paste0("window.level.pVal.lt.", window.pval.cut.off), paste0("cluster.level.FDR.lt.", fdr.cut.off))
+print(sum.table)
+
+```
+### Modelling batch effect
+Using edgeR framework to model the counts allows us to use increasingly complex linear model. We will use this functionality to model batch effect to account for the changes in the binding that are due to the "batch" and not the condition. Here the term "batch" is used loosely. What we really doing is controlling for the variable we are not interested in so that it does not contribute to the error term. In this case we arbitrarily set batch as the embryo age. We could have equally used the age as the condition of interest and the tissue of origin as a batch.
+```{r modelling batch effect, echo=TRUE, fig.width=10}
+des <- model.matrix(~ 0 + x$samples$group + x$samples$batch)
+colnames(des) <- c(levels(x$samples$group), paste0("Batch", unique(x$samples$batch))[-1])
+
+x <- estimateDisp(x, design = des)
+
+## Fit a model
+fit <- glmQLFit(x, des, robust=TRUE)
+
+## Set up the contrast of interest
+ForeVsHind <- makeContrasts(forebrain - hindbrain, levels = des)
+## Run quasi-likelihood F test
+results <- glmQLFTest(fit, contrast = ForeVsHind)
+
+sum.table <- as.data.frame(rbind(
+	window.level.pVal.lt.0.01 = c(
+		"total.count" = nrow(results$table),
+		"all.DB" = sum(results$table$PValue < window.pval.cut.off),
+		"DB.Up" = sum(results$table$PValue < window.pval.cut.off  & results$table$logFC > 0),
+		"DB.Down" = sum(results$table$PValue < window.pval.cut.off  & results$table$logFC < 0))))
+
+## Draw the MA plot for individual windows
+par(mfrow=c(1,1))
+smoothScatter(results$table$logCPM, results$table$logFC, main = paste0(sum.table$DB.Up, " up, ", sum.table$DB.Down, " down\nat uncorrected pVal=", window.pval.cut.off))
+abline(h=0, lty = 2, lwd = 2)
+points(results$table$logCPM[results$table$PValue <= window.pval.cut.off], results$table$logFC[results$table$PValue < window.pval.cut.off], col="darkred", cex=0.5)
+
+## Cluster overlapping and adjacent windows into clusters (if two windows are more than window apart - don't merge them). Use maximum cluster size set in the parameters file. If a cluster is larger than the maximum size, it is split into 2 equal clusters.
+## Set the maximum cluster size
+max.cluster.size <- 7000L
+merged <- mergeWindows(rowRanges(filtered.counts), tol = 1L, max.width = max.cluster.size)
+
+## Combine p values of the clustered windows
+tabcom <- combineTests(merged$id, results$table)
+
+## Add the "best window" info for each cluster. "Best window" is defined as the window with the smallest p value in a given cluster.
+tab.best <- getBestTest(merged$id, results$table)
+colnames(tab.best) <- paste0("window.", colnames(tab.best))
+tabcom <- cbind(tabcom, tab.best)
+
+## Add status
+tabcom$status <- "NS"
+tabcom$status[tabcom$FDR < fdr.cut.off & tabcom$window.logFC > 0] <- "Up"
+tabcom$status[tabcom$FDR < fdr.cut.off & tabcom$window.logFC < 0] <- "Down"
+sum.table <- rbind(
+    window.level.pVal.lt.0.01 = c(
+        "total.count" = nrow(results$table),
+        "all.DB" = sum(results$table$PValue < window.pval.cut.off),
+        "DB.Up" = sum(results$table$PValue < window.pval.cut.off  & results$table$logFC > 0),
+        "DB.Down" = sum(results$table$PValue < window.pval.cut.off  & results$table$logFC < 0)),
+    cluster.level.pVal.lt.0.1 = c(
+        "total.count" = nrow(tabcom),
+        "all.DB" = sum(tabcom$status != "NS"),
+        "DB.Up" = sum(tabcom$status == "Up"),
+        "DB.Down" = sum(tabcom$status == "Down")))
+rownames(sum.table) <- c(paste0("window.level.pVal.lt.", window.pval.cut.off), paste0("cluster.level.FDR.lt.", fdr.cut.off))
+print(sum.table)
+```
+So by accounting for the embryo age we have almost doubled the number of DB clusters. We still see some trend in the final MA plot. It's not too worrying, but we could try to correct for it. This is done by fitting a loess function so that we get a matrix of count offsets at different abundance levels. These offsets are then supplied when fitting the model. We just need to remember to re-set normalisation factors to 1 so that we don't normalise twice.
+```{r correcting for trended bias, echo=TRUE, fig.width=10}
+## Re-set normalisation factors
+x$samples$norm.factors <- 1
+## Calculate trended offsets
+normfacs.loess <- normOffsets(filtered.counts, type = "loess")
+## Plot an MDS plot of samples taking normalisation strategy into account
+par(mfrow=c(1,2))
+plotMDS(cpm(x$counts - 2^(normfacs.loess/log(2)), lib.size = x$samples$lib.size, prior.count = 0.5, log = T), col = as.numeric(x$samples$group), main = "Coloured by group - trended normalisation", top = 1000)
+plotMDS(cpm(x$counts - 2^(normfacs.loess/log(2)), lib.size = x$samples$lib.size, prior.count = 0.5, log = T), col = as.numeric(x$samples$batch), main = "Coloured by batch - trended normalisation", top = 1000)
+
+## Include batch effect in the design matrix
+des <- model.matrix(~ 0 + x$samples$group + x$samples$batch)
+colnames(des) <- c(levels(x$samples$group), paste0("Batch", unique(x$samples$batch))[-1])
+
+x <- estimateDisp(x, design = des)
+
+## Fit a model including trending normalisation offset
+fit <- glmQLFit(x, des, robust=TRUE, offset = normfacs.loess)
+
+ForeVsHind <- makeContrasts(forebrain - hindbrain, levels = des)
+results <- glmQLFTest(fit, contrast = ForeVsHind)
+
+sum.table <- as.data.frame(rbind(
+	window.level.pVal.lt.0.01 = c(
+		"total.count" = nrow(results$table),
+		"all.DB" = sum(results$table$PValue < window.pval.cut.off),
+		"DB.Up" = sum(results$table$PValue < window.pval.cut.off  & results$table$logFC > 0),
+		"DB.Down" = sum(results$table$PValue < window.pval.cut.off  & results$table$logFC < 0))))
+
+## Draw the MA plot for individual windows
+par(mfrow=c(1,1))
+smoothScatter(results$table$logCPM, results$table$logFC, main = paste0(sum.table$DB.Up, " up, ", sum.table$DB.Down, " down\nat uncorrected pVal=", window.pval.cut.off))
+abline(h=0, lty = 2, lwd = 2)
+points(results$table$logCPM[results$table$PValue <= window.pval.cut.off], results$table$logFC[results$table$PValue < window.pval.cut.off], col="darkred", cex=0.5)
+
+## Cluster overlapping and adjacent windows into clusters (if two windows are more than window apart - don't merge them). Use maximum cluster size set in the parameters file. If a cluster is larger than the maximum size, it is split into 2 equal clusters.
+## Set the maximum cluster size
+max.cluster.size <- 7000L
+merged <- mergeWindows(rowRanges(filtered.counts), tol = 1L, max.width = max.cluster.size)
+
+## Combine p values of the clustered windows
+tabcom <- combineTests(merged$id, results$table)
+
+## Add the "best window" info for each cluster. "Best window" is defined as the window with the smallest p value in a given cluster.
+tab.best <- getBestTest(merged$id, results$table)
+colnames(tab.best) <- paste0("window.", colnames(tab.best))
+tabcom <- cbind(tabcom, tab.best)
+
+## Add region coordinates to the cluster table
+tabcom <- cbind(tabcom, as.data.frame(merged$region)[,-5])
+## Also add the same coordinates in a single IGV compatible string
+tabcom$cluster.coordinates <- paste0(tabcom$seqnames, ":", tabcom$start, "-", tabcom$end)
+
+## Add status
+
+tabcom$status <- "NS"
+tabcom$status[tabcom$FDR < fdr.cut.off & tabcom$window.logFC > 0] <- "Up"
+tabcom$status[tabcom$FDR < fdr.cut.off & tabcom$window.logFC < 0] <- "Down"
+sum.table <- rbind(
+    window.level.pVal.lt.0.01 = c(
+        "total.count" = nrow(results$table),
+        "all.DB" = sum(results$table$PValue < window.pval.cut.off),
+        "DB.Up" = sum(results$table$PValue < window.pval.cut.off  & results$table$logFC > 0),
+        "DB.Down" = sum(results$table$PValue < window.pval.cut.off  & results$table$logFC < 0)),
+    cluster.level.pVal.lt.0.1 = c(
+        "total.count" = nrow(tabcom),
+        "all.DB" = sum(tabcom$status != "NS"),
+        "DB.Up" = sum(tabcom$status == "Up"),
+        "DB.Down" = sum(tabcom$status == "Down")))
+rownames(sum.table) <- c(paste0("window.level.pVal.lt.", window.pval.cut.off), paste0("cluster.level.FDR.lt.", fdr.cut.off))
+print(sum.table)
+```
+The trended bias could be a lot stronger than in this case, as, for example, here:
+
+![](trended.effects.pdf){width=24cm height=12cm}
+
+## Cluster annotation
+Now that we have out "final set" of clusters, we will annotate them at 3 different level: gene body, promoter and enhancer. Promoter is defined as 3 kb up- and down-stream of TSS.We will use BioConductor TxDb.Mmusculus.UCSC.mm10.knownGene to extract gene body and TSS coordinates.  Enhancer coordinates are derived using an external tool. Since p value and FDR cut-offs are somewhat arbitrary, I tend to annotate and keep all the clusters.
+```{r Cluster annotation, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+## Generate gene body and promoter annotations
+symbs <- toTable(org.Mm.egSYMBOL)
+
+## Gene body
+gene.anno <- unlist(transcriptsBy(TxDb.Mmusculus.UCSC.mm10.knownGene, by = "gene"))
+strand(gene.anno) <- "*"
+gene.anno$GeneID <- names(gene.anno)
+gene.anno$Symbols <- symbs$symbol[match(gene.anno$GeneID, symbs$gene_id)]
+gene.anno <- gene.anno[!is.na(gene.anno$Symbols)]
+# head(gene.anno)
+
+tss.anno <- promoters(TxDb.Mmusculus.UCSC.mm10.knownGene, 3000, 3000)
+strand(tss.anno) <- "*"
+txid <- as.character(tss.anno$tx_id)
+gene_ids <- select(TxDb.Mmusculus.UCSC.mm10.knownGene, txid, "GENEID", "TXID")
+tss.anno$GeneID <- gene_ids$GENEID[match(tss.anno$tx_id, gene_ids$TXID)]
+tss.anno$Symbols <- symbs$symbol[match(tss.anno$GeneID, symbs$gene_id)]
+tss.anno <- tss.anno[!is.na(tss.anno$Symbols)]
+# head(tss.anno)
+
+## Load enhancer annotation
+enh.anno <- GRanges(read.table("./data/all_enhancers.mm10.bed", stringsAsFactors = F, col.names = c("chr", "start", "end")))
+names(enh.anno) <- paste0(seqnames(enh.anno), ":", start(enh.anno), "-", end(enh.anno))
+# head(enh.anno)
+
+### Find overlaps with the gene body
+olaps <- as.data.frame(findOverlaps(GRanges(tabcom[,12:14]), gene.anno, maxgap = 1000))
+## For each cluster id find all genes that it overlaps and report a list of unique gene symbols
+region.Symbols <- tapply(olaps$subjectHits, olaps$queryHits, function(x) paste(unique(gene.anno[x]$Symbols), collapse = "; "))
+tabcom$gene.overlap <- NA
+tabcom$gene.overlap[as.numeric(names(region.Symbols))] <- region.Symbols
+
+### Find overlaps with the promoter
+olaps <- as.data.frame(findOverlaps(GRanges(tabcom[,12:14]), tss.anno, maxgap = 1000))
+## For each cluster id find all promoters that it overlaps and report a list of unique gene symbols
+region.Symbols <- tapply(olaps$subjectHits, olaps$queryHits, function(x) paste(unique(tss.anno[x]$Symbols), collapse = "; "))
+tabcom$promoter.overlap <- NA
+tabcom$promoter.overlap[as.numeric(names(region.Symbols))] <- region.Symbols
+
+### Find overlaps with enhancers
+olaps <- as.data.frame(findOverlaps(GRanges(tabcom[,12:14]), enh.anno, maxgap = 1000))
+## For each cluster id find all enhancers that it overlaps and report a list of enhancer ids (enhancer coordinates).
+region.Symbols <- tapply(olaps$subjectHits, olaps$queryHits, function(x) paste(names(enh.anno[x]), collapse = "; "))
+tabcom$enhancer.overlap <- NA
+tabcom$enhancer.overlap[as.numeric(names(region.Symbols))] <- region.Symbols
+
+write.csv(tabcom[order(tabcom$PValue),], file = "./reports/DB.results.table.csv")
+write.csv(sum.table, file = "./reports/DB.results.summary.csv")
+```
+Let's have a look at the results table.
+```{r print the results table, echo=TRUE}
+print(head(tabcom[order(tabcom$PValue),], 20))
+```
+Finally, let's save two bed files, one for all the filtered windows and the other for the clustered windows. We will encode the p value for each window and each cluster as a bed-compatible colour score.
+```{r write bed files, echo=TRUE}
+## Write a bed file for all windows with a p value as a score (-log10)
+window.bed.file <- data.frame(chr = as.character(seqnames(rowRanges(filtered.counts))),
+                              start = start(rowRanges(filtered.counts)),
+                              end = end(rowRanges(filtered.counts)),
+                              log10.Pvalue = -log10(results$table$PValue),
+                              score = round(-log10(results$table$PValue), digits = 2)*100,
+                              stringsAsFactors = F)
+window.bed.file <- rbind(c("track color=0,60,120 useScore=1 db=mm10", "NA", "NA", "NA", "NA"), window.bed.file)
+write.table(window.bed.file, file = "./reports/window.level.db.results.bed", quote = F, sep = "\t", row.names = F, col.names = F)
+
+## Write a bed file for all clusters with a p value as a score (-log10)
+cluster.bed.file <- data.frame(chr = as.character(tabcom$seqnames),
+                               start = tabcom$start,
+                               end = tabcom$end,
+                               log10.Pvalue = -log10(tabcom$PValue),
+                               score = round(-log10(tabcom$PValue), digits = 2)*100,
+                               stringsAsFactors = F)
+cluster.bed.file <- rbind(c("track color=0,60,120 useScore=1 db=mm10", "NA", "NA", "NA", "NA"), cluster.bed.file)
+write.table(cluster.bed.file, file = "./reports/cluster.level.db.results.bed", quote = F, sep = "\t", row.names = F, col.names = F, na = "")
+
+```
