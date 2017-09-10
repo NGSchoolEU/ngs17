@@ -1,6 +1,10 @@
 # NGSchool2017 materials
 
-Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu/2017). 
+Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu/2017).
+You can sync all data using (**don't do it during workshops!**):
+```bash
+rsync -avz 192.168.1.111:/ngschool/2017 ~/ngschool
+```
 
 **Table of Contents**  
    * [NGSchool2017 materials](#ngschool2017-materials)
@@ -20,7 +24,8 @@ Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu
 ## Dependencies
 In order to run workshop examples in your own laptop, you'll need to install all below prerequesities.  
 **Note, the installation instructions are meant for Ubuntu 16.04. 
-Everything should be done in below order, it may take 2-3 hours and around 15-20GB of hard-drive space.**
+Everything should be done in below order, it may take a few hours (especially compilation of R packages is lengthy...)
+and around 15-20GB of hard-drive space.**
 
 ### [bioconda](https://bioconda.github.io/) & [docker](https://docker.com)
 ```bash
@@ -53,7 +58,7 @@ sudo apt-get update && sudo apt upgrade && sudo apt install libcurl4-openssl-dev
 sudo apt install r-base r-base-dev
 
 # install R packages for all users
-sudo R
+sudo R | tee -a /tmp/r.log
 install.packages("plotly"); install.packages("ggplot2")
 source("https://bioconductor.org/biocLite.R") # bioconductor
 biocLite('BiocInstaller'); biocLite("ATACseqQC"); biocLite("Diffbifnd"); biocLite("affyPLM"); biocLite("arrayMvout"); biocLite("arrayQualityMetrics"); biocLite("gcrma"); biocLite("hgu133acdf"); biocLite("hgu133a.db"); biocLite("hgu133plus2.db"); biocLite("simpleaffy")
@@ -73,14 +78,16 @@ devtools::install_github('jw156605/SLICER'); devtools::install_github("hms-dbmi/
 
 ### 8/09/2017 UPDATE
 ```bash
-sudo R # tgambin & kkedzierska
+sudo R | tee -a /tmp/r.log # tgambin & kkedzierska
 install.packages("data.table");
 source("https://bioconductor.org/biocLite.R")
 biocLite('parallel'); biocLite('RCurl'); biocLite('gdata'); biocLite('Hmisc'); biocLite('matrixStats'); biocLite('DNAcopy'); biocLite('GenomicRanges'); biocLite('Rsubread'); biocLite('WES.1KG.WUGSC'); biocLite('CODEX'); biocLite("ChIPseeker");
 ```
 
+### 10/09/2017 UPDATE
 ```bash
-sudo R # Differential chip-seq analysis
+sudo R | tee -a /tmp/r.log # Differential chip-seq analysis
+source("https://bioconductor.org/biocLite.R")
 biocLite("csaw"); biocLite("GenomicRanges"); biocLite("GenomicAlignments"); biocLite("GenomicFeatures"); biocLite("edgeR"); biocLite("TxDb.Mmusculus.UCSC.mm10.knownGene"); biocLite("org.Mm.eg.db")
 install.packages("ProjectTemplate")
 ```
@@ -119,6 +126,11 @@ Below, we're providing links to data not included in this repository.
 
 ### Materials not included in github repo
 You can get below using `wget -nc -r -np HTTP`
+
+Note, you can also sync all data using:
+```bash
+rsync -avz 192.168.1.111:/ngschool/2017 ~/ngschool
+```
 
 #### Introduction
 All exercises are in: http://compbio.fmph.uniba.sk/temp/ngschool2017/
