@@ -4,7 +4,7 @@ Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu
 
 You can sync all data using (**don't do it during workshops!**):
 ```bash
-rsync -avz USERNAME@192.168.1.111:/ngschool/2017 ~/ngschool
+rsync -avz --exclude="*.git/" USERNAME@192.168.1.111:/ngschool/2017 ~/ngschool
 # and type your password
 ```
 
@@ -100,7 +100,7 @@ install.packages("ProjectTemplate")
 ## Running exercises
 
 ### Working in your own laptop
-Copy workshop materials locally ie. `rsync -av /media/$USER/USB_MOUNT_DIR ~/ngschool/2017`,
+Copy workshop materials locally ie. `rsync -av --exclude="*.git/" /media/$USER/USB_MOUNT_DIR ~/ngschool/2017`,
 enter NGSchoool directory `cd ~/ngschool/2017` and you are ready to work.
 Make sure, you have installed [all prerequesities](#dependencies) before! 
 
@@ -131,7 +131,7 @@ You can get below using `wget -nc -r -np HTTP`
 
 Note, you can also sync all data using:
 ```bash
-rsync -avz USERNAME@192.168.1.111:/ngschool/2017 ~/ngschool
+rsync -avz --exclude="*.git/" USERNAME@192.168.1.111:/ngschool/2017 ~/ngschool
 # and type your password
 ```
 
