@@ -1,3 +1,9 @@
 [submodule "scRNA.seq.course"]
 	path = scRNA.seq.course
 	url = https://github.com/hemberg-lab/scRNA.seq.course
+[submodule "cruk-autumn-school-2017"]
+	path = cruk-autumn-school-2017
+	url = https://github.com/bioinformatics-core-shared-training/cruk-autumn-school-2017
+[submodule "RNAseq-R"]
+	path = RNAseq-R
+	url = https://github.com/bioinformatics-core-shared-training/RNAseq-R
