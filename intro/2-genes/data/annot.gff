@@ -1,0 +1,112 @@
+anidulans-frag	RefSeq	gene	948	4310	.	+	.	ID=gene155;Dbxref=GeneID:2870393;Name=AN6642.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6642.2
+anidulans-frag	RefSeq	mRNA	948	4310	.	+	.	ID=rna158;Parent=gene155;Dbxref=Genbank:XM_659154.1,GeneID:2870393;Name=XM_659154.1;end_range=446310,.;gbkey=mRNA;partial=true;start_range=.,442948;transcript_id=XM_659154.1
+anidulans-frag	RefSeq	exon	948	1178	.	+	.	ID=id580;Parent=rna158;Dbxref=Genbank:XM_659154.1,GeneID:2870393;gbkey=mRNA;partial=true;start_range=.,442948;transcript_id=XM_659154.1
+anidulans-frag	RefSeq	exon	1242	1507	.	+	.	ID=id581;Parent=rna158;Dbxref=Genbank:XM_659154.1,GeneID:2870393;gbkey=mRNA;partial=true;transcript_id=XM_659154.1
+anidulans-frag	RefSeq	exon	1555	3622	.	+	.	ID=id582;Parent=rna158;Dbxref=Genbank:XM_659154.1,GeneID:2870393;gbkey=mRNA;partial=true;transcript_id=XM_659154.1
+anidulans-frag	RefSeq	exon	3675	4310	.	+	.	ID=id583;Parent=rna158;Dbxref=Genbank:XM_659154.1,GeneID:2870393;end_range=446310,.;gbkey=mRNA;partial=true;transcript_id=XM_659154.1
+anidulans-frag	RefSeq	CDS	948	1178	.	+	0	ID=cds155;Parent=rna158;Dbxref=Genbank:XP_664246.1,GeneID:2870393;Name=XP_664246.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664246.1
+anidulans-frag	RefSeq	CDS	1242	1507	.	+	0	ID=cds155;Parent=rna158;Dbxref=Genbank:XP_664246.1,GeneID:2870393;Name=XP_664246.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664246.1
+anidulans-frag	RefSeq	CDS	1555	3622	.	+	1	ID=cds155;Parent=rna158;Dbxref=Genbank:XP_664246.1,GeneID:2870393;Name=XP_664246.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664246.1
+anidulans-frag	RefSeq	CDS	3675	4310	.	+	0	ID=cds155;Parent=rna158;Dbxref=Genbank:XP_664246.1,GeneID:2870393;Name=XP_664246.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664246.1
+anidulans-frag	RefSeq	gene	5213	6491	.	-	.	ID=gene156;Dbxref=GeneID:2870394;Name=AN6643.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6643.2
+anidulans-frag	RefSeq	mRNA	5213	6491	.	-	.	ID=rna159;Parent=gene156;Dbxref=Genbank:XM_659155.1,GeneID:2870394;Name=XM_659155.1;end_range=448491,.;gbkey=mRNA;partial=true;start_range=.,447213;transcript_id=XM_659155.1
+anidulans-frag	RefSeq	exon	6282	6491	.	-	.	ID=id584;Parent=rna159;Dbxref=Genbank:XM_659155.1,GeneID:2870394;end_range=448491,.;gbkey=mRNA;partial=true;transcript_id=XM_659155.1
+anidulans-frag	RefSeq	exon	5213	6184	.	-	.	ID=id585;Parent=rna159;Dbxref=Genbank:XM_659155.1,GeneID:2870394;gbkey=mRNA;partial=true;start_range=.,447213;transcript_id=XM_659155.1
+anidulans-frag	RefSeq	CDS	6282	6491	.	-	0	ID=cds156;Parent=rna159;Dbxref=Genbank:XP_664247.1,GeneID:2870394;Name=XP_664247.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664247.1
+anidulans-frag	RefSeq	CDS	5213	6184	.	-	0	ID=cds156;Parent=rna159;Dbxref=Genbank:XP_664247.1,GeneID:2870394;Name=XP_664247.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664247.1
+anidulans-frag	RefSeq	gene	7405	9998	.	-	.	ID=gene157;Dbxref=GeneID:2870397;Name=AN6644.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6644.2
+anidulans-frag	RefSeq	mRNA	7405	9998	.	-	.	ID=rna160;Parent=gene157;Dbxref=Genbank:XM_659156.1,GeneID:2870397;Name=XM_659156.1;end_range=451998,.;gbkey=mRNA;partial=true;start_range=.,449405;transcript_id=XM_659156.1
+anidulans-frag	RefSeq	exon	9811	9998	.	-	.	ID=id586;Parent=rna160;Dbxref=Genbank:XM_659156.1,GeneID:2870397;end_range=451998,.;gbkey=mRNA;partial=true;transcript_id=XM_659156.1
+anidulans-frag	RefSeq	exon	9667	9760	.	-	.	ID=id587;Parent=rna160;Dbxref=Genbank:XM_659156.1,GeneID:2870397;gbkey=mRNA;partial=true;transcript_id=XM_659156.1
+anidulans-frag	RefSeq	exon	8280	9613	.	-	.	ID=id588;Parent=rna160;Dbxref=Genbank:XM_659156.1,GeneID:2870397;gbkey=mRNA;partial=true;transcript_id=XM_659156.1
+anidulans-frag	RefSeq	exon	7653	8227	.	-	.	ID=id589;Parent=rna160;Dbxref=Genbank:XM_659156.1,GeneID:2870397;gbkey=mRNA;partial=true;transcript_id=XM_659156.1
+anidulans-frag	RefSeq	exon	7405	7577	.	-	.	ID=id590;Parent=rna160;Dbxref=Genbank:XM_659156.1,GeneID:2870397;gbkey=mRNA;partial=true;start_range=.,449405;transcript_id=XM_659156.1
+anidulans-frag	RefSeq	CDS	9811	9998	.	-	0	ID=cds157;Parent=rna160;Dbxref=Genbank:XP_664248.1,GeneID:2870397;Name=XP_664248.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664248.1
+anidulans-frag	RefSeq	CDS	9667	9760	.	-	1	ID=cds157;Parent=rna160;Dbxref=Genbank:XP_664248.1,GeneID:2870397;Name=XP_664248.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664248.1
+anidulans-frag	RefSeq	CDS	8280	9613	.	-	0	ID=cds157;Parent=rna160;Dbxref=Genbank:XP_664248.1,GeneID:2870397;Name=XP_664248.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664248.1
+anidulans-frag	RefSeq	CDS	7653	8227	.	-	1	ID=cds157;Parent=rna160;Dbxref=Genbank:XP_664248.1,GeneID:2870397;Name=XP_664248.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664248.1
+anidulans-frag	RefSeq	CDS	7405	7577	.	-	2	ID=cds157;Parent=rna160;Dbxref=Genbank:XP_664248.1,GeneID:2870397;Name=XP_664248.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664248.1
+anidulans-frag	RefSeq	gene	10707	11685	.	+	.	ID=gene158;Dbxref=GeneID:2870398;Name=AN6645.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6645.2
+anidulans-frag	RefSeq	mRNA	10707	11685	.	+	.	ID=rna161;Parent=gene158;Dbxref=Genbank:XM_659157.1,GeneID:2870398;Name=XM_659157.1;end_range=453685,.;gbkey=mRNA;partial=true;start_range=.,452707;transcript_id=XM_659157.1
+anidulans-frag	RefSeq	exon	10707	11475	.	+	.	ID=id591;Parent=rna161;Dbxref=Genbank:XM_659157.1,GeneID:2870398;gbkey=mRNA;partial=true;start_range=.,452707;transcript_id=XM_659157.1
+anidulans-frag	RefSeq	exon	11525	11685	.	+	.	ID=id592;Parent=rna161;Dbxref=Genbank:XM_659157.1,GeneID:2870398;end_range=453685,.;gbkey=mRNA;partial=true;transcript_id=XM_659157.1
+anidulans-frag	RefSeq	CDS	10707	11475	.	+	0	ID=cds158;Parent=rna161;Dbxref=Genbank:XP_664249.1,GeneID:2870398;Name=XP_664249.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664249.1
+anidulans-frag	RefSeq	CDS	11525	11685	.	+	2	ID=cds158;Parent=rna161;Dbxref=Genbank:XP_664249.1,GeneID:2870398;Name=XP_664249.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664249.1
+anidulans-frag	RefSeq	gene	12200	13132	.	-	.	ID=gene159;Dbxref=GeneID:2870400;Name=AN6646.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6646.2
+anidulans-frag	RefSeq	mRNA	12200	13132	.	-	.	ID=rna162;Parent=gene159;Dbxref=Genbank:XM_659158.1,GeneID:2870400;Name=XM_659158.1;end_range=455132,.;gbkey=mRNA;partial=true;start_range=.,454200;transcript_id=XM_659158.1
+anidulans-frag	RefSeq	exon	12200	13132	.	-	.	ID=id593;Parent=rna162;Dbxref=Genbank:XM_659158.1,GeneID:2870400;end_range=455132,.;gbkey=mRNA;partial=true;start_range=.,454200;transcript_id=XM_659158.1
+anidulans-frag	RefSeq	CDS	12200	13132	.	-	0	ID=cds159;Parent=rna162;Dbxref=Genbank:XP_664250.1,GeneID:2870400;Name=XP_664250.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664250.1
+anidulans-frag	RefSeq	gene	13470	14838	.	+	.	ID=gene160;Dbxref=GeneID:2870396;Name=AN6647.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6647.2
+anidulans-frag	RefSeq	mRNA	13470	14838	.	+	.	ID=rna163;Parent=gene160;Dbxref=Genbank:XM_659159.1,GeneID:2870396;Name=XM_659159.1;end_range=456838,.;gbkey=mRNA;partial=true;start_range=.,455470;transcript_id=XM_659159.1
+anidulans-frag	RefSeq	exon	13470	14307	.	+	.	ID=id594;Parent=rna163;Dbxref=Genbank:XM_659159.1,GeneID:2870396;gbkey=mRNA;partial=true;start_range=.,455470;transcript_id=XM_659159.1
+anidulans-frag	RefSeq	exon	14354	14838	.	+	.	ID=id595;Parent=rna163;Dbxref=Genbank:XM_659159.1,GeneID:2870396;end_range=456838,.;gbkey=mRNA;partial=true;transcript_id=XM_659159.1
+anidulans-frag	RefSeq	CDS	13470	14307	.	+	0	ID=cds160;Parent=rna163;Dbxref=Genbank:XP_664251.1,GeneID:2870396;Name=XP_664251.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664251.1
+anidulans-frag	RefSeq	CDS	14354	14838	.	+	2	ID=cds160;Parent=rna163;Dbxref=Genbank:XP_664251.1,GeneID:2870396;Name=XP_664251.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664251.1
+anidulans-frag	RefSeq	gene	18497	19767	.	-	.	ID=gene161;Dbxref=GeneID:2870399;Name=AN6648.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6648.2
+anidulans-frag	RefSeq	mRNA	18497	19767	.	-	.	ID=rna164;Parent=gene161;Dbxref=Genbank:XM_659160.1,GeneID:2870399;Name=XM_659160.1;end_range=461767,.;gbkey=mRNA;partial=true;start_range=.,460497;transcript_id=XM_659160.1
+anidulans-frag	RefSeq	exon	19582	19767	.	-	.	ID=id596;Parent=rna164;Dbxref=Genbank:XM_659160.1,GeneID:2870399;end_range=461767,.;gbkey=mRNA;partial=true;transcript_id=XM_659160.1
+anidulans-frag	RefSeq	exon	19321	19437	.	-	.	ID=id597;Parent=rna164;Dbxref=Genbank:XM_659160.1,GeneID:2870399;gbkey=mRNA;partial=true;transcript_id=XM_659160.1
+anidulans-frag	RefSeq	exon	18497	19117	.	-	.	ID=id598;Parent=rna164;Dbxref=Genbank:XM_659160.1,GeneID:2870399;gbkey=mRNA;partial=true;start_range=.,460497;transcript_id=XM_659160.1
+anidulans-frag	RefSeq	CDS	19582	19767	.	-	0	ID=cds161;Parent=rna164;Dbxref=Genbank:XP_664252.1,GeneID:2870399;Name=XP_664252.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664252.1
+anidulans-frag	RefSeq	CDS	19321	19437	.	-	0	ID=cds161;Parent=rna164;Dbxref=Genbank:XP_664252.1,GeneID:2870399;Name=XP_664252.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664252.1
+anidulans-frag	RefSeq	CDS	18497	19117	.	-	0	ID=cds161;Parent=rna164;Dbxref=Genbank:XP_664252.1,GeneID:2870399;Name=XP_664252.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664252.1
+anidulans-frag	RefSeq	gene	20189	22629	.	+	.	ID=gene162;Dbxref=GeneID:2870416;Name=AN6649.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6649.2
+anidulans-frag	RefSeq	mRNA	20189	22629	.	+	.	ID=rna165;Parent=gene162;Dbxref=Genbank:XM_659161.1,GeneID:2870416;Name=XM_659161.1;end_range=464629,.;gbkey=mRNA;partial=true;start_range=.,462189;transcript_id=XM_659161.1
+anidulans-frag	RefSeq	exon	20189	20226	.	+	.	ID=id599;Parent=rna165;Dbxref=Genbank:XM_659161.1,GeneID:2870416;gbkey=mRNA;partial=true;start_range=.,462189;transcript_id=XM_659161.1
+anidulans-frag	RefSeq	exon	20342	20467	.	+	.	ID=id600;Parent=rna165;Dbxref=Genbank:XM_659161.1,GeneID:2870416;gbkey=mRNA;partial=true;transcript_id=XM_659161.1
+anidulans-frag	RefSeq	exon	20550	20572	.	+	.	ID=id601;Parent=rna165;Dbxref=Genbank:XM_659161.1,GeneID:2870416;gbkey=mRNA;partial=true;transcript_id=XM_659161.1
+anidulans-frag	RefSeq	exon	20622	21282	.	+	.	ID=id602;Parent=rna165;Dbxref=Genbank:XM_659161.1,GeneID:2870416;gbkey=mRNA;partial=true;transcript_id=XM_659161.1
+anidulans-frag	RefSeq	exon	21345	22629	.	+	.	ID=id603;Parent=rna165;Dbxref=Genbank:XM_659161.1,GeneID:2870416;end_range=464629,.;gbkey=mRNA;partial=true;transcript_id=XM_659161.1
+anidulans-frag	RefSeq	CDS	20189	20226	.	+	0	ID=cds162;Parent=rna165;Dbxref=Genbank:XP_664253.1,GeneID:2870416;Name=XP_664253.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664253.1
+anidulans-frag	RefSeq	CDS	20342	20467	.	+	1	ID=cds162;Parent=rna165;Dbxref=Genbank:XP_664253.1,GeneID:2870416;Name=XP_664253.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664253.1
+anidulans-frag	RefSeq	CDS	20550	20572	.	+	1	ID=cds162;Parent=rna165;Dbxref=Genbank:XP_664253.1,GeneID:2870416;Name=XP_664253.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664253.1
+anidulans-frag	RefSeq	CDS	20622	21282	.	+	2	ID=cds162;Parent=rna165;Dbxref=Genbank:XP_664253.1,GeneID:2870416;Name=XP_664253.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664253.1
+anidulans-frag	RefSeq	CDS	21345	22629	.	+	1	ID=cds162;Parent=rna165;Dbxref=Genbank:XP_664253.1,GeneID:2870416;Name=XP_664253.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664253.1
+anidulans-frag	RefSeq	gene	22845	24371	.	-	.	ID=gene163;Dbxref=GeneID:2870401;Name=AN6650.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6650.2
+anidulans-frag	RefSeq	mRNA	22845	24371	.	-	.	ID=rna166;Parent=gene163;Dbxref=Genbank:XM_659162.1,GeneID:2870401;Name=XM_659162.1;end_range=466371,.;gbkey=mRNA;partial=true;start_range=.,464845;transcript_id=XM_659162.1
+anidulans-frag	RefSeq	exon	24324	24371	.	-	.	ID=id604;Parent=rna166;Dbxref=Genbank:XM_659162.1,GeneID:2870401;end_range=466371,.;gbkey=mRNA;partial=true;transcript_id=XM_659162.1
+anidulans-frag	RefSeq	exon	23095	24228	.	-	.	ID=id605;Parent=rna166;Dbxref=Genbank:XM_659162.1,GeneID:2870401;gbkey=mRNA;partial=true;transcript_id=XM_659162.1
+anidulans-frag	RefSeq	exon	22845	23045	.	-	.	ID=id606;Parent=rna166;Dbxref=Genbank:XM_659162.1,GeneID:2870401;gbkey=mRNA;partial=true;start_range=.,464845;transcript_id=XM_659162.1
+anidulans-frag	RefSeq	CDS	24324	24371	.	-	0	ID=cds163;Parent=rna166;Dbxref=Genbank:XP_664254.1,GeneID:2870401;Name=XP_664254.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664254.1
+anidulans-frag	RefSeq	CDS	23095	24228	.	-	0	ID=cds163;Parent=rna166;Dbxref=Genbank:XP_664254.1,GeneID:2870401;Name=XP_664254.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664254.1
+anidulans-frag	RefSeq	CDS	22845	23045	.	-	0	ID=cds163;Parent=rna166;Dbxref=Genbank:XP_664254.1,GeneID:2870401;Name=XP_664254.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664254.1
+anidulans-frag	RefSeq	gene	25470	28914	.	+	.	ID=gene164;Dbxref=GeneID:2870418;Name=AN6651.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6651.2
+anidulans-frag	RefSeq	mRNA	25470	28914	.	+	.	ID=rna167;Parent=gene164;Dbxref=Genbank:XM_659163.1,GeneID:2870418;Name=XM_659163.1;end_range=470914,.;gbkey=mRNA;partial=true;start_range=.,467470;transcript_id=XM_659163.1
+anidulans-frag	RefSeq	exon	25470	27499	.	+	.	ID=id607;Parent=rna167;Dbxref=Genbank:XM_659163.1,GeneID:2870418;gbkey=mRNA;partial=true;start_range=.,467470;transcript_id=XM_659163.1
+anidulans-frag	RefSeq	exon	27556	28122	.	+	.	ID=id608;Parent=rna167;Dbxref=Genbank:XM_659163.1,GeneID:2870418;gbkey=mRNA;partial=true;transcript_id=XM_659163.1
+anidulans-frag	RefSeq	exon	28182	28914	.	+	.	ID=id609;Parent=rna167;Dbxref=Genbank:XM_659163.1,GeneID:2870418;end_range=470914,.;gbkey=mRNA;partial=true;transcript_id=XM_659163.1
+anidulans-frag	RefSeq	CDS	25470	27499	.	+	0	ID=cds164;Parent=rna167;Dbxref=Genbank:XP_664255.1,GeneID:2870418;Name=XP_664255.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664255.1
+anidulans-frag	RefSeq	CDS	27556	28122	.	+	1	ID=cds164;Parent=rna167;Dbxref=Genbank:XP_664255.1,GeneID:2870418;Name=XP_664255.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664255.1
+anidulans-frag	RefSeq	CDS	28182	28914	.	+	1	ID=cds164;Parent=rna167;Dbxref=Genbank:XP_664255.1,GeneID:2870418;Name=XP_664255.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664255.1
+anidulans-frag	RefSeq	gene	29478	32637	.	+	.	ID=gene165;Dbxref=GeneID:2870419;Name=AN6652.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6652.2
+anidulans-frag	RefSeq	mRNA	29478	32637	.	+	.	ID=rna168;Parent=gene165;Dbxref=Genbank:XM_659164.1,GeneID:2870419;Name=XM_659164.1;end_range=474637,.;gbkey=mRNA;partial=true;start_range=.,471478;transcript_id=XM_659164.1
+anidulans-frag	RefSeq	exon	29478	29951	.	+	.	ID=id610;Parent=rna168;Dbxref=Genbank:XM_659164.1,GeneID:2870419;gbkey=mRNA;partial=true;start_range=.,471478;transcript_id=XM_659164.1
+anidulans-frag	RefSeq	exon	29999	30153	.	+	.	ID=id611;Parent=rna168;Dbxref=Genbank:XM_659164.1,GeneID:2870419;gbkey=mRNA;partial=true;transcript_id=XM_659164.1
+anidulans-frag	RefSeq	exon	30195	32637	.	+	.	ID=id612;Parent=rna168;Dbxref=Genbank:XM_659164.1,GeneID:2870419;end_range=474637,.;gbkey=mRNA;partial=true;transcript_id=XM_659164.1
+anidulans-frag	RefSeq	CDS	29478	29951	.	+	0	ID=cds165;Parent=rna168;Dbxref=Genbank:XP_664256.1,GeneID:2870419;Name=XP_664256.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664256.1
+anidulans-frag	RefSeq	CDS	29999	30153	.	+	0	ID=cds165;Parent=rna168;Dbxref=Genbank:XP_664256.1,GeneID:2870419;Name=XP_664256.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664256.1
+anidulans-frag	RefSeq	CDS	30195	32637	.	+	1	ID=cds165;Parent=rna168;Dbxref=Genbank:XP_664256.1,GeneID:2870419;Name=XP_664256.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664256.1
+anidulans-frag	RefSeq	gene	32950	34771	.	-	.	ID=gene166;Dbxref=GeneID:2870422;Name=AN6653.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6653.2
+anidulans-frag	RefSeq	mRNA	32950	34771	.	-	.	ID=rna169;Parent=gene166;Dbxref=Genbank:XM_659165.1,GeneID:2870422;Name=XM_659165.1;end_range=476771,.;gbkey=mRNA;partial=true;start_range=.,474950;transcript_id=XM_659165.1
+anidulans-frag	RefSeq	exon	34437	34771	.	-	.	ID=id613;Parent=rna169;Dbxref=Genbank:XM_659165.1,GeneID:2870422;end_range=476771,.;gbkey=mRNA;partial=true;transcript_id=XM_659165.1
+anidulans-frag	RefSeq	exon	33932	34349	.	-	.	ID=id614;Parent=rna169;Dbxref=Genbank:XM_659165.1,GeneID:2870422;gbkey=mRNA;partial=true;transcript_id=XM_659165.1
+anidulans-frag	RefSeq	exon	33685	33885	.	-	.	ID=id615;Parent=rna169;Dbxref=Genbank:XM_659165.1,GeneID:2870422;gbkey=mRNA;partial=true;transcript_id=XM_659165.1
+anidulans-frag	RefSeq	exon	33283	33636	.	-	.	ID=id616;Parent=rna169;Dbxref=Genbank:XM_659165.1,GeneID:2870422;gbkey=mRNA;partial=true;transcript_id=XM_659165.1
+anidulans-frag	RefSeq	exon	32950	33228	.	-	.	ID=id617;Parent=rna169;Dbxref=Genbank:XM_659165.1,GeneID:2870422;gbkey=mRNA;partial=true;start_range=.,474950;transcript_id=XM_659165.1
+anidulans-frag	RefSeq	CDS	34437	34771	.	-	0	ID=cds166;Parent=rna169;Dbxref=Genbank:XP_664257.1,GeneID:2870422;Name=XP_664257.1;gbkey=CDS;product=MASY_EMENI Malate synthase%2C glyoxysomal;protein_id=XP_664257.1
+anidulans-frag	RefSeq	CDS	33932	34349	.	-	1	ID=cds166;Parent=rna169;Dbxref=Genbank:XP_664257.1,GeneID:2870422;Name=XP_664257.1;gbkey=CDS;product=MASY_EMENI Malate synthase%2C glyoxysomal;protein_id=XP_664257.1
+anidulans-frag	RefSeq	CDS	33685	33885	.	-	0	ID=cds166;Parent=rna169;Dbxref=Genbank:XP_664257.1,GeneID:2870422;Name=XP_664257.1;gbkey=CDS;product=MASY_EMENI Malate synthase%2C glyoxysomal;protein_id=XP_664257.1
+anidulans-frag	RefSeq	CDS	33283	33636	.	-	0	ID=cds166;Parent=rna169;Dbxref=Genbank:XP_664257.1,GeneID:2870422;Name=XP_664257.1;gbkey=CDS;product=MASY_EMENI Malate synthase%2C glyoxysomal;protein_id=XP_664257.1
+anidulans-frag	RefSeq	CDS	32950	33228	.	-	0	ID=cds166;Parent=rna169;Dbxref=Genbank:XP_664257.1,GeneID:2870422;Name=XP_664257.1;gbkey=CDS;product=MASY_EMENI Malate synthase%2C glyoxysomal;protein_id=XP_664257.1
+anidulans-frag	RefSeq	gene	35834	37469	.	-	.	ID=gene167;Dbxref=GeneID:2870417;Name=AN6654.2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=AN6654.2
+anidulans-frag	RefSeq	mRNA	35834	37469	.	-	.	ID=rna170;Parent=gene167;Dbxref=Genbank:XM_659166.1,GeneID:2870417;Name=XM_659166.1;end_range=479469,.;gbkey=mRNA;partial=true;start_range=.,477834;transcript_id=XM_659166.1
+anidulans-frag	RefSeq	exon	37046	37469	.	-	.	ID=id618;Parent=rna170;Dbxref=Genbank:XM_659166.1,GeneID:2870417;end_range=479469,.;gbkey=mRNA;partial=true;transcript_id=XM_659166.1
+anidulans-frag	RefSeq	exon	36753	36991	.	-	.	ID=id619;Parent=rna170;Dbxref=Genbank:XM_659166.1,GeneID:2870417;gbkey=mRNA;partial=true;transcript_id=XM_659166.1
+anidulans-frag	RefSeq	exon	36652	36704	.	-	.	ID=id620;Parent=rna170;Dbxref=Genbank:XM_659166.1,GeneID:2870417;gbkey=mRNA;partial=true;transcript_id=XM_659166.1
+anidulans-frag	RefSeq	exon	35915	36604	.	-	.	ID=id621;Parent=rna170;Dbxref=Genbank:XM_659166.1,GeneID:2870417;gbkey=mRNA;partial=true;transcript_id=XM_659166.1
+anidulans-frag	RefSeq	exon	35834	35864	.	-	.	ID=id622;Parent=rna170;Dbxref=Genbank:XM_659166.1,GeneID:2870417;gbkey=mRNA;partial=true;start_range=.,477834;transcript_id=XM_659166.1
+anidulans-frag	RefSeq	CDS	37046	37469	.	-	0	ID=cds167;Parent=rna170;Dbxref=Genbank:XP_664258.1,GeneID:2870417;Name=XP_664258.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664258.1
+anidulans-frag	RefSeq	CDS	36753	36991	.	-	2	ID=cds167;Parent=rna170;Dbxref=Genbank:XP_664258.1,GeneID:2870417;Name=XP_664258.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664258.1
+anidulans-frag	RefSeq	CDS	36652	36704	.	-	0	ID=cds167;Parent=rna170;Dbxref=Genbank:XP_664258.1,GeneID:2870417;Name=XP_664258.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664258.1
+anidulans-frag	RefSeq	CDS	35915	36604	.	-	1	ID=cds167;Parent=rna170;Dbxref=Genbank:XP_664258.1,GeneID:2870417;Name=XP_664258.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664258.1
+anidulans-frag	RefSeq	CDS	35834	35864	.	-	1	ID=cds167;Parent=rna170;Dbxref=Genbank:XP_664258.1,GeneID:2870417;Name=XP_664258.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_664258.1

@@ -1,6 +1,12 @@
 # NGSchool2017 materials
 
-Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu/2017). 
+Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu/2017).  
+
+You can sync all data using (**don't do it during workshops!**):
+```bash
+rsync -avz --exclude="*.git/" USERNAME@192.168.1.111:/ngschool/2017 ~/ngschool
+# and type your password
+```
 
 **Table of Contents**  
    * [NGSchool2017 materials](#ngschool2017-materials)
@@ -11,14 +17,17 @@ Materials prepared by the instructors of the [#NGSchool2017](https://ngschool.eu
          * [Working in VirtualBox](#working-in-virtualbox)
       * [Cloning the repository](#cloning-the-repository)
          * [Materials not included in github repo](#materials-not-included-in-github-repo)
-            * [De novo assembly](#de-novo-assembly)
+            * [Introduction](#introduction)
+            * [De novo assembly](#de-novo-assembly)    
+            * [Hi-C](#hi-c)    
             * [Microbial genomics](#microbial-genomics)
 
 
 ## Dependencies
 In order to run workshop examples in your own laptop, you'll need to install all below prerequesities.  
 **Note, the installation instructions are meant for Ubuntu 16.04. 
-Everything should be done in below order, it may take 2-3 hours and around 15-20GB of hard-drive space.**
+Everything should be done in below order, it may take a few hours (especially compilation of R packages is lengthy...)
+and around 15-20GB of hard-drive space.**
 
 ### [bioconda](https://bioconda.github.io/) & [docker](https://docker.com)
 ```bash
@@ -51,7 +60,7 @@ sudo apt-get update && sudo apt upgrade && sudo apt install libcurl4-openssl-dev
 sudo apt install r-base r-base-dev
 
 # install R packages for all users
-sudo R
+sudo R | tee -a /tmp/r.log
 install.packages("plotly"); install.packages("ggplot2")
 source("https://bioconductor.org/biocLite.R") # bioconductor
 biocLite('BiocInstaller'); biocLite("ATACseqQC"); biocLite("Diffbifnd"); biocLite("affyPLM"); biocLite("arrayMvout"); biocLite("arrayQualityMetrics"); biocLite("gcrma"); biocLite("hgu133acdf"); biocLite("hgu133a.db"); biocLite("hgu133plus2.db"); biocLite("simpleaffy")
@@ -71,10 +80,18 @@ devtools::install_github('jw156605/SLICER'); devtools::install_github("hms-dbmi/
 
 ### 8/09/2017 UPDATE
 ```bash
-sudo R # tgambin & kkedzierska
+sudo R | tee -a /tmp/r.log # tgambin & kkedzierska
 install.packages("data.table");
 source("https://bioconductor.org/biocLite.R")
 biocLite('parallel'); biocLite('RCurl'); biocLite('gdata'); biocLite('Hmisc'); biocLite('matrixStats'); biocLite('DNAcopy'); biocLite('GenomicRanges'); biocLite('Rsubread'); biocLite('WES.1KG.WUGSC'); biocLite('CODEX'); biocLite("ChIPseeker");
+```
+
+### 10/09/2017 UPDATE
+```bash
+sudo R | tee -a /tmp/r.log # Differential chip-seq analysis
+source("https://bioconductor.org/biocLite.R")
+biocLite("csaw"); biocLite("GenomicRanges"); biocLite("GenomicAlignments"); biocLite("GenomicFeatures"); biocLite("edgeR"); biocLite("TxDb.Mmusculus.UCSC.mm10.knownGene"); biocLite("org.Mm.eg.db")
+install.packages("ProjectTemplate")
 ```
 
 ### Manual installation
@@ -83,7 +100,7 @@ biocLite('parallel'); biocLite('RCurl'); biocLite('gdata'); biocLite('Hmisc'); b
 ## Running exercises
 
 ### Working in your own laptop
-Copy workshop materials locally ie. `rsync -av /media/$USER/USB_MOUNT_DIR ~/ngschool/2017`,
+Copy workshop materials locally ie. `rsync -av --exclude="*.git/" /media/$USER/USB_MOUNT_DIR ~/ngschool/2017`,
 enter NGSchoool directory `cd ~/ngschool/2017` and you are ready to work.
 Make sure, you have installed [all prerequesities](#dependencies) before! 
 
@@ -110,11 +127,26 @@ To clone repo, use `git clone --recursive https://github.com/NGSchoolEU/2017.git
 Below, we're providing links to data not included in this repository. 
 
 ### Materials not included in github repo
-You can get it using `wget -nc -r -np HTTP`
+You can get below using `wget -nc -r -np HTTP`
+
+Note, you can also sync all data using:
+```bash
+rsync -avz --exclude="*.git/" USERNAME@192.168.1.111:/ngschool/2017 ~/ngschool
+# and type your password
+```
+
+#### Introduction
+All exercises are in: http://compbio.fmph.uniba.sk/temp/ngschool2017/
+- http://compbio.fmph.uniba.sk/temp/ngschool2017/everything.zip
 
 #### De novo assembly
 - http://spades.bioinf.spbau.ru/~school/genomics/
 - http://spades.bioinf.spbau.ru/~school/transcriptomics/
+
+#### Hi-C
+Get ONE of below files: 
+- http://makarich.fbb.msu.ru/agalicina/2017/NGS/hic_workshop_2017_withimage.tar.gz (2GB, docker image compiled)
+- http://makarich.fbb.msu.ru/agalicina/2017/NGS/hic_workshop_2017_light.tar.gz (0.7GB, without docker image compiled)
 
 #### Microbial genomics
 - http://bugs.sgul.ac.uk/ngschool-2017/

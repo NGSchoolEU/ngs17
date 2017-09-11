@@ -1,0 +1,11 @@
+version: 0.7
+data_loading: FALSE
+cache_loading: FALSE
+recursive_loading: FALSE
+munging: FALSE
+logging: FALSE
+load_libraries: TRUE
+libraries: GenomicRanges, csaw, edgeR, GenomicFeatures, TxDb.Mmusculus.UCSC.mm10.knownGene, org.Mm.eg.db, GenomicAlignments
+as_factors: TRUE
+data_tables: FALSE
+attach_internal_libraries: FALSE
