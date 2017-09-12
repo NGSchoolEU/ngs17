@@ -4,10 +4,15 @@ In this workshop we will use sequence data generated on an IonTorrent Personal G
 
 ## Setup and server login
 
-* First change to the workshop directory
+* From within your cloned 2017 git repository, first change to the workshop directory
 
 ```bash
 cd microbial-genomics
+```
+* add the local bin directory to your PATH
+
+```bash
+export PATH=./bin:$PATH
 ```
 
 ## Data files
