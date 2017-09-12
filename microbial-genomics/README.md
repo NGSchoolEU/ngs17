@@ -38,7 +38,7 @@ tmap index -f genomes/NC_000962.fna
 * Map the raw reads to the H37Rv reference using TMAP (Note that TMAP is IonTorrent specific, if we were using MiSeq data we would probably use a different aligner e.g. BWA) [Note, type all on one line]
 
 ```bash
-tmap-mapall genomes/NC_000962.fna data/Case1a.bam > Case1a.bam
+tmap mapall -f genomes/NC_000962.fna -r data/Case1a.bam -n 1 -v -Y -u -o 1 stage1 map4 > Case1a.bam
 ```
 
 * Sort the alignment by genome position
@@ -85,7 +85,7 @@ java -Dbam=Case1a.sort.bam -jar bin/artemis.jar genomes/NC_000962.gbk
 We now need to process the alignment file and identify which base is present at every reference genome position, thus identifying mutations or wild type at sites of interest. We use the “samtools mpileup” program to process the alignment file and call each genome site where the reads have mapped [type all on one line]:
 
 ```bash
-samtools-mpileup genomes/NC_000962.fna Case1a.sort.bam > Case1a.all.vcf.gz
+samtools mpileup -ugf genomes/NC_000962.fna Case1a.sort.bam -r NC_000962.3:1-1000000 | bcftools view -cg - | bgzip > Case1a.all.vcf.gz
 ```
 
 * build a tabix index, (tabix needs this below)
@@ -99,8 +99,8 @@ We can then filter the resulting VCF (Variant Calling Format) file and examine t
 Identify which amino acids have been changed below, a copy of a codon translation table is available on the last page of this worksheet.
 
 1. Rifampicin
-* RpoB
-* amino acid 430, L -> P
+** RpoB
+*** amino acid 430, L -> P
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:761094-761096
@@ -174,7 +174,7 @@ snp-filter
 Phylogenetic reconstruction is performed by Maximum Likelihood estimation, using RAxML
 
 ```bash
-estimate-tree
+raxmlHPC-PTHREADS-SSE3 -T 1 -f a -s NC_000962.b1.infile -x 12345 -p 1234 -# 100 -m GTRGAMMA -n NC_000962.b1 -o NC_000962.3
 ```
 
 Visualise tree file using FigTree
