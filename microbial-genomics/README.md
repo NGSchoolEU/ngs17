@@ -78,7 +78,8 @@ java -Dbam=Case1a.sort.bam -jar bin/artemis.jar genomes/NC_000962.gbk
 * Take some time to navigate around the interface
 * Right click on the alignment panel and click Show->SNP marks, this will show SNP positions in read
 * Navigate to genome base position 7570, by clicking Goto->Navigator and entering the position in "Goto Base:", then click Goto.
-* What effect does the mutation have in Case1a?
+1. Which gene is this mutation found in?
+2. What effect does the mutation have in Case1a? (Check if this is a known TB resistance mutation by checking the TBDreamDB database [https://tbdreamdb.ki.se/Data/MutationDetail.aspx?AreaId=FLQ&GeneID=Rv0006&OnlyHC=true])
 
 ## Site calling
 
