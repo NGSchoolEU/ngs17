@@ -1,8 +1,7 @@
 
 
-ls -l data/
-zcat data/Case1a.fastq.gz | head
-count-reads data/Case1a.fastq.gz
+ll data/
+tmap index -f genomes/NC_000962.fna
 tmap-mapall genomes/NC_000962.fna data/Case1a.bam > Case1a.bam
 samtools sort Case1a.bam Case1a.sort
 samtools index Case1a.sort.bam
