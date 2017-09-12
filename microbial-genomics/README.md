@@ -98,51 +98,47 @@ We can then filter the resulting VCF (Variant Calling Format) file and examine t
 
 Identify which amino acids have been changed below, a copy of a codon translation table is available on the last page of this worksheet.
 
-1. Rifampicin
-** RpoB
-*** amino acid 430, L -> P
+#### Rifampicin
+* RpoB - amino acid 430, L -> P
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:761094-761096
 ```
 
-* amino acid 450, S -> L
+* RpoB - amino acid 450, S -> L
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:761154-761156
 ```
 
-2. Isoniazid
-* KatG
-* amino acid 315, S -> T [Note that katG is coded on the reverse strand]
+#### Isoniazid
+* KatG - amino acid 315, S -> T [Note that katG is coded on the reverse strand]
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:2155167-2155169
 ```
 
-3. Ethambutol
-* EmbB
-* amino acid  306, M -> I / V
+#### Ethambutol
+* EmbB - amino acid  306, M -> I / V
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:4247429-4247431
 ```
 
-* amino acid 406, G -> A
+* EmbB - amino acid 406, G -> A
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:4247729-4247731
 ```
 
-4. Fluoroquinolones
-* GyrA
-* amino acid 90, A -> V
+#### Fluoroquinolones
+* GyrA - amino acid 90, A -> V
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:7569-7571
 ```
 
-* amino acid 94, D -> G / E
+* GyrA - amino acid 94, D -> G / E
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:7581-7583
