@@ -92,7 +92,7 @@ java -Dbam=Case1a.sort.bam -jar bin/artemis.jar genomes/NC_000962.gbk
 We now need to process the alignment file and identify which base is present at every reference genome position, thus identifying mutations or wild type at sites of interest. We use the “samtools mpileup” program to process the alignment file and call each genome site where the reads have mapped [type all on one line]:
 
 ```bash
-samtools mpileup -ugf genomes/NC_000962.fna Case1a.sort.bam -r NC_000962.3:1-1000000 | bcftools view -cg - | bgzip > Case1a.all.vcf.gz
+samtools mpileup -ugf genomes/NC_000962.fna Case1a.sort.bam | bcftools view -cg - | bgzip > Case1a.all.vcf.gz
 ```
 
 * build a tabix index, (tabix needs this below)
