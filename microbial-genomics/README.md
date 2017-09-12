@@ -1,6 +1,6 @@
 # Workshop - Drug resistance phenotype prediction using WGS
 
-In this workshop we will use sequence data generated on an IonTorrent Personal Genome Machine to identify any known mutations associated with drug resistance, therefore predicting the drug resistance phenotype. Data is available for 16 isolates from 6 suspected XDR-TB cases; due to size constraints only one isolate sequence is provided on the pen drive, the rest are available from [http://www.ebi.ac.uk/ena/data/view/PRJEB6576]. We will use standard tools on linux to perform the analyses.
+In this workshop we will use sequence data generated on an IonTorrent Personal Genome Machine to identify any known mutations associated with drug resistance, therefore predicting the drug resistance phenotype. We will use standard tools on linux to perform the analyses.
 
 ## Setup and server login
 
@@ -17,7 +17,8 @@ export PATH=./bin:$PATH
 
 ## Data files
 
-* Data is provided for 16 isolates from 6 suspected XDR-TB cases. The study is described in “Clinical application of whole-genome sequencing to inform treatment for multidrug-resistant tuberculosis cases. J Clin Microbiol. 2015 May;53(5):1473-83. doi: 10.1128/JCM.02993-14”
+* Data is available for 16 isolates from 6 suspected XDR-TB cases. The study is described in “Clinical application of whole-genome sequencing to inform treatment for multidrug-resistant tuberculosis cases. J Clin Microbiol. 2015 May;53(5):1473-83. doi: 10.1128/JCM.02993-14”
+* Due to file size constraints only one isolate equence is included on the pen drive, the remaining sequence files are available from [http://www.ebi.ac.uk/ena/data/view/PRJEB6576]. Note that these are in fastq.gz format, in order to use them here, gunzip the files and include the "-i fastq" switch on the tmap command line below.
 * We will use WGS data to predict drug resistance phenotypes and therefore inform treatment options. 
 * Explore the data files here:
 
