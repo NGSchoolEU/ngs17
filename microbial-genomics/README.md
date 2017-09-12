@@ -1,6 +1,6 @@
 # Workshop - Drug resistance phenotype prediction using WGS
 
-In this workshop we will use sequence data generated on an IonTorrent Personal Genome Machine to identify any known mutations associated with drug resistance, therefore predicting the drug resistance phenotype. Data is provided for 16 isolates from 6 suspected XDR-TB cases. We will use standard tools on linux to perform the analyses.
+In this workshop we will use sequence data generated on an IonTorrent Personal Genome Machine to identify any known mutations associated with drug resistance, therefore predicting the drug resistance phenotype. Data is available for 16 isolates from 6 suspected XDR-TB cases; due to size constraints only one isolate sequence is provided on the pen drive, the rest are available from [http://www.ebi.ac.uk/ena/data/view/PRJEB6576]. We will use standard tools on linux to perform the analyses.
 
 ## Setup and server login
 
