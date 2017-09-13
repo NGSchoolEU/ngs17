@@ -184,3 +184,25 @@ Visualise tree file using FigTree
 * From FigTree click Open and find your tree file (RAxML_bipartitions.NC_000962.SGUL.b1)
 * Explore the tree with the various FigTree options e.g. root the tree at the midpoint
 
+
+## Automated tools
+
+Above we have seen the “manual” approach to resistance prediction in TB. For WGS to be useful tool in clinical practice, these analysis pipelines need to be standardised and packaged into automated tools Several such tools are available, try uploading the fastq files in the data directory (you will need to download the fastq.gz file to your PC first using the CyberDuck as above) into these tools:
+
+1. TB profiler
+* Developed by Prof Taane Clark’s group at LSHTM.
+* Open a web browser and load http://tbdr.lshtm.ac.uk/
+* Upload Case1a.fastq.gz using the “Gzipped fastq file” “Choose file” button.
+* Click Submit
+* Compare results with those determined in the workshop
+
+2. Mykrobe predictor
+* Developed by Dr Zamin Iqbal at University of Oxford.
+* Open a web browser and load http://www.mykrobe.com/products/predictor/
+* Select the TB tab and click Download
+* Agree to the licence and Download the version for your OS.
+* Run your version of the software, this depends on which OS you are using
+* Drag the Case1a.fastq.gz file to the Predictor window, or click Browse to find.
+* Explore the reports and compare the results as above
+
+
