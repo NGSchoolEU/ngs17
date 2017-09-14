@@ -1,18 +1,24 @@
 # Workshop - Drug resistance phenotype prediction using WGS
 
-In this workshop we will use sequence data generated on an IonTorrent Personal Genome Machine to identify any known mutations associated with drug resistance, therefore predicting the drug resistance phenotype. Data is provided for 16 isolates from 6 suspected XDR-TB cases. We will use standard tools on linux to perform the analyses.
+In this workshop we will use sequence data generated on an IonTorrent Personal Genome Machine to identify any known mutations associated with drug resistance, therefore predicting the drug resistance phenotype. We will use standard tools on linux to perform the analyses.
 
 ## Setup and server login
 
-* First change to the workshop directory
+* From within your cloned 2017 git repository, first change to the workshop directory
 
 ```bash
 cd microbial-genomics
 ```
+* add the local bin directory to your PATH
+
+```bash
+export PATH=./bin:$PATH
+```
 
 ## Data files
 
-* Data is provided for 16 isolates from 6 suspected XDR-TB cases. The study is described in “Clinical application of whole-genome sequencing to inform treatment for multidrug-resistant tuberculosis cases. J Clin Microbiol. 2015 May;53(5):1473-83. doi: 10.1128/JCM.02993-14”
+* Data is available for 16 isolates from 6 suspected XDR-TB cases. The study is described in “Clinical application of whole-genome sequencing to inform treatment for multidrug-resistant tuberculosis cases. J Clin Microbiol. 2015 May;53(5):1473-83. doi: 10.1128/JCM.02993-14”. [https://www.ncbi.nlm.nih.gov/pubmed/25673793]
+* Due to file size constraints only one isolate sequence is included on the pen drive, the remaining sequence files are available from [http://www.ebi.ac.uk/ena/data/view/PRJEB6576]. Note that these are in fastq.gz format, in order to use them here, gunzip the files and include the "-i fastq" switch on the tmap command line below.
 * We will use WGS data to predict drug resistance phenotypes and therefore inform treatment options. 
 * Explore the data files here:
 
@@ -38,7 +44,7 @@ tmap index -f genomes/NC_000962.fna
 * Map the raw reads to the H37Rv reference using TMAP (Note that TMAP is IonTorrent specific, if we were using MiSeq data we would probably use a different aligner e.g. BWA) [Note, type all on one line]
 
 ```bash
-tmap-mapall genomes/NC_000962.fna data/Case1a.bam > Case1a.bam
+tmap mapall -f genomes/NC_000962.fna -r data/Case1a.bam -n 1 -v -Y -u -o 1 stage1 map4 > Case1a.bam
 ```
 
 * Sort the alignment by genome position
@@ -88,7 +94,8 @@ java -Dbam=Case1a.sort.bam -jar bin/artemis.jar genomes/NC_000962.gbk
 * Take some time to navigate around the interface
 * Right click on the alignment panel and click Show->SNP marks, this will show SNP positions in read
 * Navigate to genome base position 7570, by clicking Goto->Navigator and entering the position in "Goto Base:", then click Goto.
-* What effect does the mutation have in Case1a?
+1. Which gene is this mutation found in?
+2. What effect does the mutation have in Case1a? (Check if this is a known TB resistance mutation by checking the TBDreamDB database [https://tbdreamdb.ki.se/Data/MutationDetail.aspx?AreaId=FLQ&GeneID=Rv0006&OnlyHC=true])
 
 ## Site calling (continued)
 
@@ -104,51 +111,47 @@ We can then filter the resulting VCF (Variant Calling Format) file and examine t
 
 Identify which amino acids have been changed below, a codon translation table is available here [https://www2.le.ac.uk/projects/vgec/diagrams/34%20codon%20table.jpg].
 
-1. Rifampicin
-* RpoB
-* amino acid 430, L -> P
+#### Rifampicin
+* RpoB - amino acid 430, L -> P
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:761094-761096
 ```
 
-* amino acid 450, S -> L
+* RpoB - amino acid 450, S -> L
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:761154-761156
 ```
 
-2. Isoniazid
-* KatG
-* amino acid 315, S -> T [Note that katG is coded on the reverse strand]
+#### Isoniazid
+* KatG - amino acid 315, S -> T [Note that katG is coded on the reverse strand]
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:2155167-2155169
 ```
 
-3. Ethambutol
-* EmbB
-* amino acid  306, M -> I / V
+#### Ethambutol
+* EmbB - amino acid  306, M -> I / V
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:4247429-4247431
 ```
 
-* amino acid 406, G -> A
+* EmbB - amino acid 406, G -> A
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:4247729-4247731
 ```
 
-4. Fluoroquinolones
-* GyrA
-* amino acid 90, A -> V
+#### Fluoroquinolones
+* GyrA - amino acid 90, A -> V
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:7569-7571
 ```
 
-* amino acid 94, D -> G / E
+* GyrA - amino acid 94, D -> G / E
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:7581-7583
@@ -180,7 +183,7 @@ snp-filter
 Phylogenetic reconstruction is performed by Maximum Likelihood estimation, using RAxML
 
 ```bash
-estimate-tree
+raxmlHPC-PTHREADS-SSE3 -T 1 -f a -s NC_000962.b1.infile -x 12345 -p 1234 -# 100 -m GTRGAMMA -n NC_000962.b1 -o NC_000962.3
 ```
 
 Visualise tree file using FigTree
