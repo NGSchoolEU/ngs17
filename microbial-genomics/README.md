@@ -112,6 +112,8 @@ We can then filter the resulting VCF (Variant Calling Format) file and examine t
 Identify which amino acids have been changed below, a codon translation table is available here [https://www2.le.ac.uk/projects/vgec/diagrams/34%20codon%20table.jpg].
 
 #### Rifampicin
+Resistance to Rifampcicin is driven by mutations in the RNA polymerase B gene, *rpoB*. We will look at two common sites here:
+
 * RpoB - amino acid 430, L -> P
 
 ```bash
@@ -124,14 +126,21 @@ tabix vcf/Case1a.all.vcf.gz NC_000962.3:761094-761096
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:761154-761156
 ```
 
+Is Case1a resistant to Rifampicin?
+
 #### Isoniazid
+Common mutations to Isoniazid are found in the *inaH* and *katG* genes. We will look at a common *katG* mutation here:
+
 * KatG - amino acid 315, S -> T [Note that katG is coded on the reverse strand]
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:2155167-2155169
 ```
+Is Case1a resistant to Isoniazid?
 
 #### Ethambutol
+Mutations in the *embB* gene are commonly associated with reistsnace to Ethambutol.
+
 * EmbB - amino acid  306, M -> I / V
 
 ```bash
@@ -144,20 +153,26 @@ tabix vcf/Case1a.all.vcf.gz NC_000962.3:4247429-4247431
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:4247729-4247731
 ```
 
+Is Case1a resistant to Ethambutol?
+
 #### Fluoroquinolones
-* GyrA - amino acid 90, A -> V
+Resistance to fluoroquinolones is assocated with mutations in the A subunit of the DNA gyrase gene, *gyrA*, we will look at two common sites here, these are located within the Quinolone Resistance determining Region (QRDR):
+
+* GyrA - amino acid 90, A -> V (causes low level resistance to moxifloxacin)
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:7569-7571
 ```
 
-* GyrA - amino acid 94, D -> G / E
+* GyrA - amino acid 94, D -> G / E (causes high level resistance to moxifloxacin)
 
 ```bash
 tabix vcf/Case1a.all.vcf.gz NC_000962.3:7581-7583
 ```
 
-Try the analysis process for other Cases by changing the filename Case1a.all.vcf.gz above, compare to the attached published results for this set of isolates. To get a full list of patient sample files type:
+Is Case1a resistant to Fluoroquinolones?
+
+Try the analysis process for other Cases by changing the filename Case1a.all.vcf.gz above, compare to the published results for this set of isolates found here [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4400773/table/T2/]. To get a full list of patient sample files type:
 
 ```bash
 ls vcf/
