@@ -65,6 +65,16 @@ samtools flagstat Case1a.sort.bam
 samtools view Case1a.sort.bam | less
 ```
 
+## Site calling
+
+We now need to process the alignment file and identify which base is present at every reference genome position, thus identifying mutations or wild type at sites of interest. We use the “samtools mpileup” program to process the alignment file and call each genome site where the reads have mapped [type all on one line]:
+
+```bash
+samtools-mpileup genomes/NC_000962.fna Case1a.sort.bam > Case1a.all.vcf.gz
+```
+
+This will take a little time, so we will move on to the next stage and come back to this when it is finished
+
 ## Visualise alignment file using Artemis
 
 Artemis is a genome visualisation tool developed at the Sanger Institute. It is available for download from [http://www.sanger.ac.uk/science/tools/artemis]
@@ -80,13 +90,9 @@ java -Dbam=Case1a.sort.bam -jar bin/artemis.jar genomes/NC_000962.gbk
 * Navigate to genome base position 7570, by clicking Goto->Navigator and entering the position in "Goto Base:", then click Goto.
 * What effect does the mutation have in Case1a?
 
-## Site calling
+## Site calling (continued)
 
-We now need to process the alignment file and identify which base is present at every reference genome position, thus identifying mutations or wild type at sites of interest. We use the “samtools mpileup” program to process the alignment file and call each genome site where the reads have mapped [type all on one line]:
-
-```bash
-samtools-mpileup genomes/NC_000962.fna Case1a.sort.bam > Case1a.all.vcf.gz
-```
+When the "samtools mpileup" command  has finished we can continue.
 
 * build a tabix index, (tabix needs this below)
 
@@ -96,7 +102,7 @@ tabix -p vcf Case1a.all.vcf.gz
 
 We can then filter the resulting VCF (Variant Calling Format) file and examine those sites known to be associated with drug resistance phenotypes.
 
-Identify which amino acids have been changed below, a copy of a codon translation table is available on the last page of this worksheet.
+Identify which amino acids have been changed below, a codon translation table is available here [https://www2.le.ac.uk/projects/vgec/diagrams/34%20codon%20table.jpg].
 
 1. Rifampicin
 * RpoB
