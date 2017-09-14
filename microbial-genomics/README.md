@@ -129,7 +129,7 @@ tabix vcf/Case1a.all.vcf.gz NC_000962.3:761154-761156
 Is Case1a resistant to Rifampicin?
 
 #### Isoniazid
-Common mutations to Isoniazid are found in the *inaH* and *katG* genes. We will look at a common *katG* mutation here:
+Common mutations to Isoniazid are found in the *inhA* and *katG* genes. We will look at a common *katG* mutation here:
 
 * KatG - amino acid 315, S -> T [Note that katG is coded on the reverse strand]
 
