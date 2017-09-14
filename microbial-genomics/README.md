@@ -172,7 +172,9 @@ tabix vcf/Case1a.all.vcf.gz NC_000962.3:7581-7583
 
 Is Case1a resistant to Fluoroquinolones?
 
-Try the analysis process for other Cases by changing the filename Case1a.all.vcf.gz above, compare to the published results for this set of isolates found here [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4400773/table/T2/]. To get a full list of patient sample files type:
+Compare your results to the published results for this set of isolates found here [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4400773/table/T2/]
+
+Try the analysis process for other Cases by changing the filename Case1a.all.vcf.gz above. To get a full list of patient samples list the vcf files available:
 
 ```bash
 ls vcf/
