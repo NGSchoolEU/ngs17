@@ -73,7 +73,7 @@ samtools view Case1a.sort.bam | less
 
 ## Site calling
 
-We now need to process the alignment file and identify which base is present at every reference genome position, thus identifying mutations or wild type at sites of interest. We use the “samtools mpileup” program to process the alignment file and call each genome site where the reads have mapped [type all on one line]:
+We now need to process the alignment file and identify which base is present at every reference genome position, thus identifying mutations or wild type at sites of interest. We use the “samtools mpileup” program to process the alignment file and call each genome site where the reads have mapped [enter all on one line]:
 
 ```bash
 samtools mpileup -ugf genomes/NC_000962.fna Case1a.sort.bam | bcftools view -cg - | bgzip > Case1a.all.vcf.gz
@@ -110,6 +110,8 @@ tabix -p vcf Case1a.all.vcf.gz
 We can then filter the resulting VCF (Variant Calling Format) file and examine those sites known to be associated with drug resistance phenotypes.
 
 Identify which amino acids have been changed below, a codon translation table is available here [https://www2.le.ac.uk/projects/vgec/diagrams/34%20codon%20table.jpg].
+
+In these vcf formated files the second column shows the genome position, the fourth column is the reference base while the fifth column shows if there is a SNP at that position, if there is no SNP then a '.' is shown. These commands show the three bases of the relevant codon.
 
 #### Rifampicin
 Resistance to Rifampcicin is driven by mutations in the RNA polymerase B gene, *rpoB*. We will look at two common sites here:
