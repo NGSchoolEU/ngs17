@@ -18,12 +18,12 @@ export PATH=./bin:$PATH
 ## Data files
 
 * Data is available for 16 isolates from 6 suspected XDR-TB cases. The study is described in “Clinical application of whole-genome sequencing to inform treatment for multidrug-resistant tuberculosis cases. J Clin Microbiol. 2015 May;53(5):1473-83. doi: 10.1128/JCM.02993-14”. [https://www.ncbi.nlm.nih.gov/pubmed/25673793]
-* Due to file size constraints only one isolate sequence is included on the pen drive, the remaining sequence files are available from [http://www.ebi.ac.uk/ena/data/view/PRJEB6576]. Note that these are in fastq.gz format, in order to use them here, gunzip the files and include the "-i fastq" switch on the tmap command line below.
+* Due to file size constraints only one isolate sequence is included on the pen drive, the remaining sequence files are available from [http://www.ebi.ac.uk/ena/data/view/PRJEB6576] or locally on the local workshop server local.ngschool.eu. Note that these are in fastq.gz format, in order to use them here, gunzip the files and include the "-i fastq" switch on the tmap command line below.
 * We will use WGS data to predict drug resistance phenotypes and therefore inform treatment options. 
 * Explore the data files here:
 
 ```bash
-ll data/
+ls data/
 ```
 
 * The Ion Torrent platform generates raw data in unaligned bam files rather than fastq. Take a look inside a raw data file, you will notice that it looks exactly the same as an aligned bam, but without the reference and coordinates
@@ -73,7 +73,7 @@ samtools view Case1a.sort.bam | less
 
 ## Site calling
 
-We now need to process the alignment file and identify which base is present at every reference genome position, thus identifying mutations or wild type at sites of interest. We use the “samtools mpileup” program to process the alignment file and call each genome site where the reads have mapped [type all on one line]:
+We now need to process the alignment file and identify which base is present at every reference genome position, thus identifying mutations or wild type at sites of interest. We use the “samtools mpileup” program to process the alignment file and call each genome site where the reads have mapped [enter all on one line]:
 
 ```bash
 samtools mpileup -ugf genomes/NC_000962.fna Case1a.sort.bam | bcftools view -cg - | bgzip > Case1a.all.vcf.gz
@@ -110,6 +110,8 @@ tabix -p vcf Case1a.all.vcf.gz
 We can then filter the resulting VCF (Variant Calling Format) file and examine those sites known to be associated with drug resistance phenotypes.
 
 Identify which amino acids have been changed below, a codon translation table is available here [https://www2.le.ac.uk/projects/vgec/diagrams/34%20codon%20table.jpg].
+
+In these vcf formated files the second column shows the genome position, the fourth column is the reference base while the fifth column shows if there is a SNP at that position, if there is no SNP then a '.' is shown. These commands show the three bases of the relevant codon.
 
 #### Rifampicin
 Resistance to Rifampcicin is driven by mutations in the RNA polymerase B gene, *rpoB*. We will look at two common sites here:
@@ -191,10 +193,19 @@ As above VCF files are generated for all isolates to be examined. These VCF’s 
 * Site present in all sequences (ignores insertion sequences etc)
 
 The remaining sites are collected into a matrix
-To perform this site filtering and matrix building (this will take a few minutes to complete)
+To perform this site filtering and matrix building (this will take a few minutes to complete), use the following command [note, this is also contained in the snp-filter script] 
 
 ```bash
-snp-filter
+perl scripts/snp_caller.pl --chrom NC_000962.3 --qual 30 --dp 2 --dp4 75 --dpmax 5000 --af 0 --mq 30 --noindels --noheader \
+  --vcf Case1a,vcf/Case1a.all.vcf.gz \
+  --vcf Case2a,vcf/Case2a.all.vcf.gz \
+  --vcf Case3a,vcf/Case3a.all.vcf.gz \
+  --vcf Case4a,vcf/Case4a.all.vcf.gz \
+  --vcf Case5a,vcf/Case5a.all.vcf.gz \
+  --vcf Case6a,vcf/Case6a.all.vcf.gz \
+  --vcf Case7a,vcf/Case7a.all.vcf.gz \
+  --vcf Case8a,vcf/Case8a.all.vcf.gz \
+  --dir ./ --phylip NC_000962.b1.infile --verbose 0 --refilter -b 1 --cpus 1
 ```
 
 Phylogenetic reconstruction is performed by Maximum Likelihood estimation, using RAxML
@@ -213,7 +224,7 @@ Visualise tree file using FigTree
 
 ## Automated tools
 
-Above we have seen the “manual” approach to resistance prediction in TB. For WGS to be useful tool in clinical practice, these analysis pipelines need to be standardised and packaged into automated tools Several such tools are available, try uploading the fastq files in the data directory (you will need to download the fastq.gz file to your PC first using the CyberDuck as above) into these tools:
+Above we have seen the “manual” approach to resistance prediction in TB. For WGS to be useful tool in clinical practice, these analysis pipelines need to be standardised and packaged into automated tools Several such tools are available, try uploading the fastq files in the data directory (you will need to download the fastq.gz file to your environment/PC first) into these tools:
 
 1. TB profiler
 * Developed by Prof Taane Clark’s group at LSHTM.
