@@ -59,7 +59,6 @@ $(PHYLOGENY)/NC_000962.b1.infile:
 		--vcf Case3a,vcf/Case3a.all.vcf.gz \
 		--vcf Case3b,vcf/Case3b.all.vcf.gz \
 		--vcf Case3c,vcf/Case3c.all.vcf.gz \
-		--vcf Case3d,vcf/Case3d.all.vcf.gz \
 		--vcf Case2b,vcf/Case2b.all.vcf.gz \
 		--vcf Case6c,vcf/Case6c.all.vcf.gz \
 		--vcf Case6b,vcf/Case6b.all.vcf.gz \
