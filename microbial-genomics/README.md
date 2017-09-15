@@ -23,7 +23,7 @@ export PATH=./bin:$PATH
 * Explore the data files here:
 
 ```bash
-ll data/
+ls data/
 ```
 
 * The Ion Torrent platform generates raw data in unaligned bam files rather than fastq. Take a look inside a raw data file, you will notice that it looks exactly the same as an aligned bam, but without the reference and coordinates
