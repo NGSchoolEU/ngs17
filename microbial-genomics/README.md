@@ -2,12 +2,18 @@
 
 In this workshop we will use sequence data generated on an IonTorrent Personal Genome Machine to identify any known mutations associated with drug resistance, therefore predicting the drug resistance phenotype. We will use standard tools on linux to perform the analyses.
 
-## Setup and server login
+## Setup files
 
-* From within your cloned 2017 git repository, first change to the workshop directory
+* If you don't already have the data then rsync it using
 
 ```bash
-cd microbial-genomics
+rsync -avz --exclude="*.git/" USERNAME@192.168.1.111:/ngschool/2017/microbial-genomics ~/ngschool/
+```
+
+Then change into the working directory
+
+```bash
+cd ~/ngschool/microbial-genomics
 ```
 * add the local bin directory to your PATH
 
@@ -18,7 +24,7 @@ export PATH=./bin:$PATH
 ## Data files
 
 * Data is available for 16 isolates from 6 suspected XDR-TB cases. The study is described in “Clinical application of whole-genome sequencing to inform treatment for multidrug-resistant tuberculosis cases. J Clin Microbiol. 2015 May;53(5):1473-83. doi: 10.1128/JCM.02993-14”. [https://www.ncbi.nlm.nih.gov/pubmed/25673793]
-* Due to file size constraints only one isolate sequence is included on the pen drive, the remaining sequence files are available from [http://www.ebi.ac.uk/ena/data/view/PRJEB6576] or locally on the local workshop server local.ngschool.eu. Note that these are in fastq.gz format, in order to use them here, gunzip the files and include the "-i fastq" switch on the tmap command line below.
+* Due to file size constraints only two isolate sequences are included initially, but the remaining sequence files are available from the local workshop server (see below).
 * We will use WGS data to predict drug resistance phenotypes and therefore inform treatment options. 
 * Explore the data files here:
 
@@ -180,6 +186,12 @@ Try the analysis process for other Cases by changing the filename Case1a.all.vcf
 
 ```bash
 ls vcf/
+```
+
+Or you can rerun the analysis using the other isolate raw data files. Case3a is also provided and the remaining data files can be obtained using:
+
+```bash
+rsync -avz --exclude="*.git/" USERNAME@192.168.1.111:/ngschool/users/awitney/data/* ~/ngschool/mcirobial-genomics/data/
 ```
 
 ## Phylogenetic analysis
