@@ -76,7 +76,7 @@ samtools view Case1a.sort.bam | less
 We now need to process the alignment file and identify which base is present at every reference genome position, thus identifying mutations or wild type at sites of interest. We use the “samtools mpileup” program to process the alignment file and call each genome site where the reads have mapped [type all on one line]:
 
 ```bash
-samtools-mpileup genomes/NC_000962.fna Case1a.sort.bam > Case1a.all.vcf.gz
+samtools mpileup -ugf genomes/NC_000962.fna Case1a.sort.bam | bcftools view -cg - | bgzip > Case1a.all.vcf.gz
 ```
 
 This will take a little time, so we will move on to the next stage and come back to this when it is finished
