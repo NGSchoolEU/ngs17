@@ -193,10 +193,19 @@ As above VCF files are generated for all isolates to be examined. These VCF’s 
 * Site present in all sequences (ignores insertion sequences etc)
 
 The remaining sites are collected into a matrix
-To perform this site filtering and matrix building (this will take a few minutes to complete)
+To perform this site filtering and matrix building (this will take a few minutes to complete), use the following command [note, this is also contained in the snp-filter script] 
 
 ```bash
-snp-filter
+perl scripts/snp_caller.pl --chrom NC_000962.3 --qual 30 --dp 2 --dp4 75 --dpmax 5000 --af 0 --mq 30 --noindels --noheader \
+  --vcf Case1a,vcf/Case1a.all.vcf.gz \
+  --vcf Case2a,vcf/Case2a.all.vcf.gz \
+  --vcf Case3a,vcf/Case3a.all.vcf.gz \
+  --vcf Case4a,vcf/Case4a.all.vcf.gz \
+  --vcf Case5a,vcf/Case5a.all.vcf.gz \
+  --vcf Case6a,vcf/Case6a.all.vcf.gz \
+  --vcf Case7a,vcf/Case7a.all.vcf.gz \
+  --vcf Case8a,vcf/Case8a.all.vcf.gz \
+  --dir ./ --phylip NC_000962.b1.infile --verbose 0 --refilter -b 1 --cpus 1
 ```
 
 Phylogenetic reconstruction is performed by Maximum Likelihood estimation, using RAxML
@@ -215,7 +224,7 @@ Visualise tree file using FigTree
 
 ## Automated tools
 
-Above we have seen the “manual” approach to resistance prediction in TB. For WGS to be useful tool in clinical practice, these analysis pipelines need to be standardised and packaged into automated tools Several such tools are available, try uploading the fastq files in the data directory (you will need to download the fastq.gz file to your PC first using the CyberDuck as above) into these tools:
+Above we have seen the “manual” approach to resistance prediction in TB. For WGS to be useful tool in clinical practice, these analysis pipelines need to be standardised and packaged into automated tools Several such tools are available, try uploading the fastq files in the data directory (you will need to download the fastq.gz file to your environment/PC first) into these tools:
 
 1. TB profiler
 * Developed by Prof Taane Clark’s group at LSHTM.
