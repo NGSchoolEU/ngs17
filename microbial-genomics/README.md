@@ -191,7 +191,7 @@ ls vcf/
 Or you can rerun the analysis using the other isolate raw data files. Case3a is also provided and the remaining data files can be obtained using:
 
 ```bash
-rsync -avz --exclude="*.git/" USERNAME@192.168.1.111:/ngschool/users/awitney/data/* ~/ngschool/mcirobial-genomics/data/
+rsync -avz --exclude="*.git/" USERNAME@192.168.1.111:/ngschool/users/awitney/data/* ~/ngschool/microbial-genomics/data/
 ```
 
 ## Phylogenetic analysis
