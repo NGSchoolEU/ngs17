@@ -1,0 +1,34 @@
+#perl scripts/snp_caller.pl --chrom NC_000962.3 --qual 30 --dp 2 --dp4 75 --dpmax 5000 --af 0 --mq 30 --noindels --noheader \
+#		--vcf Case5a,vcf/Case5a.all.vcf.gz \
+#		--vcf Case5b,vcf/Case5b.all.vcf.gz \
+#		--vcf Case5c,vcf/Case5c.all.vcf.gz \
+#		--vcf Case4a,vcf/Case4a.all.vcf.gz \
+#		--vcf Case2a,vcf/Case2a.all.vcf.gz \
+#		--vcf Case1a,vcf/Case1a.all.vcf.gz \
+#		--vcf Case1b,vcf/Case1b.all.vcf.gz \
+#		--vcf Case3a,vcf/Case3a.all.vcf.gz \
+#		--vcf Case3b,vcf/Case3b.all.vcf.gz \
+#		--vcf Case3c,vcf/Case3c.all.vcf.gz \
+#		--vcf Case3d,vcf/Case3d.all.vcf.gz \
+#		--vcf Case2b,vcf/Case2b.all.vcf.gz \
+#		--vcf Case6c,vcf/Case6c.all.vcf.gz \
+#		--vcf Case6b,vcf/Case6b.all.vcf.gz \
+#		--vcf Case6a,vcf/Case6a.all.vcf.gz \
+ #		\
+#		--vcf Case7b,vcf/Case7b.all.vcf.gz \
+#		--vcf Case7a,vcf/Case7a.all.vcf.gz \
+#		\
+ #		--vcf Case8a,vcf/Case8a.all.vcf.gz \
+ #		--vcf Case8b,vcf/Case8b.all.vcf.gz \
+#		--vcf Case8c,vcf/Case8c.all.vcf.gz \
+#	--dir ./ --phylip NC_000962.b1.infile --verbose 0 --refilter -b 1 --cpus 6
+
+perl scripts/snp_caller.pl --chrom NC_000962.3 --qual 30 --dp 2 --dp4 75 --dpmax 5000 --af 0 --mq 30 --noindels --noheader \
+		--vcf Case1a,vcf/Case1a.all.vcf.gz \
+		--vcf Case2a,vcf/Case2a.all.vcf.gz \
+		--vcf Case3a,vcf/Case3a.all.vcf.gz \
+		--vcf Case4a,vcf/Case4a.all.vcf.gz \
+		--vcf Case5a,vcf/Case5a.all.vcf.gz \
+		--vcf Case6a,vcf/Case6a.all.vcf.gz \
+	--dir ./ --phylip NC_000962.b1.infile --verbose 0 --refilter -b 1 --cpus 6
+
